@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="435.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainScreen">
+   <children>
+      <HBox layoutX="10.0" layoutY="10.0" prefHeight="59.0" prefWidth="600.0">
+         <children>
+            <Label text="Appointment Manager">
+               <padding>
+                  <Insets bottom="20.0" left="10.0" right="20.0" top="20.0" />
+               </padding>
+               <font>
+                  <Font name="Arial Black" size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" layoutX="15.0" layoutY="90.0" prefHeight="280.0" prefWidth="1050.0">
+         <children>
+            <VBox prefHeight="246.0" prefWidth="400.0" style="-fx-border-color: black; -fx-border-radius: 20;">
+               <children>
+                  <HBox prefHeight="51.0" prefWidth="292.0">
+                     <children>
+                        <Label minHeight="-Infinity" minWidth="-Infinity" text="Customers">
+                           <font>
+                              <Font name="Arial Black" size="13.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Button fx:id="searchCustBttn" alignment="CENTER_RIGHT" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#searchPartBttn" text="Search">
+                           <HBox.margin>
+                              <Insets left="75.0" />
+                           </HBox.margin>
+                        </Button>
+                        <TextField fx:id="searchCustTxt" alignment="TOP_RIGHT" prefHeight="27.0" prefWidth="190.0">
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="custTable" prefHeight="100.0" prefWidth="390.0">
+                           <columns>
+                              <TableColumn fx:id="custIDCol" prefWidth="96.0" text="Customer ID" />
+                              <TableColumn fx:id="custNameCol" prefWidth="118.0165023803711" text="Customer Name" />
+                              <TableColumn fx:id="countryCol" prefWidth="83.48345947265625" text="Country" />
+                              <TableColumn fx:id="divisionCol" prefWidth="89.64459228515625" text="Division" />
+                           </columns>
+                        </TableView>
+                     </children>
+                  </HBox>
+                  <HBox alignment="BOTTOM_RIGHT" prefHeight="30.0" prefWidth="290.0">
+                     <children>
+                        <Button fx:id="addCustBttn" mnemonicParsing="false" onAction="#addCustBttn" text="Add" />
+                        <Button fx:id="updateCustBttn" mnemonicParsing="false" onAction="#updateCustBttn" text="Update">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button fx:id="deleteCustBttn" mnemonicParsing="false" onAction="#deleteCustBttn" text="Delete">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                     <VBox.margin>
+                        <Insets top="80.0" />
+                     </VBox.margin>
+                  </HBox>
+               </children>
+               <HBox.margin>
+                  <Insets right="5.0" />
+               </HBox.margin>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </VBox>
+            <VBox prefHeight="246.0" prefWidth="640.0" style="-fx-border-color: black; -fx-border-radius: 20;">
+               <children>
+                  <HBox prefHeight="52.0" prefWidth="289.0">
+                     <children>
+                        <Label minHeight="-Infinity" minWidth="-Infinity" text="Appointments">
+                           <font>
+                              <Font name="Arial Black" size="13.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Button fx:id="searchApptBttn" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#searchApptBttn" text="Search">
+                           <HBox.margin>
+                              <Insets left="55.0" />
+                           </HBox.margin>
+                        </Button>
+                        <TextField fx:id="searchApptTxt" prefHeight="27.0" prefWidth="190.0">
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="apptTable" prefHeight="100.0" prefWidth="630.0">
+                           <columns>
+                              <TableColumn fx:id="apptIDCol" prefWidth="96.14273071289062" text="Appointment ID" />
+                              <TableColumn fx:id="apptTitleCol" prefWidth="34.8572998046875" text="Title" />
+                              <TableColumn fx:id="descriptionCol" prefWidth="74.053955078125" text="Description" />
+                              <TableColumn fx:id="locationCol" minWidth="4.0" prefWidth="60.8753662109375" text="Location" />
+                              <TableColumn fx:id="contactCol" minWidth="4.0" prefWidth="54.89337158203125" text="Contact" />
+                              <TableColumn fx:id="typeCol" minWidth="4.0" prefWidth="44.21466064453125" text="Type" />
+                              <TableColumn fx:id="startCol" minWidth="4.0" prefWidth="65.3934326171875" text="Start Date" />
+                              <TableColumn fx:id="endCol" minWidth="4.0" prefWidth="66.072021484375" text="End Date" />
+                              <TableColumn fx:id="customerIDCol" minWidth="4.0" prefWidth="80.214599609375" text="Customer ID" />
+                              <TableColumn fx:id="userIDCol" minWidth="4.0" prefWidth="48.0" text="User ID" />
+                           </columns>
+                        </TableView>
+                     </children>
+                  </HBox>
+                  <HBox alignment="BOTTOM_RIGHT" prefHeight="30.0" prefWidth="290.0">
+                     <children>
+                        <Button fx:id="addApptBttn" mnemonicParsing="false" onAction="#addApptBttn" text="Add" />
+                        <Button fx:id="updateApptBttn" mnemonicParsing="false" onAction="#updateApptBttn" text="Update">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button fx:id="deleteApptBttn" mnemonicParsing="false" onAction="#deleteApptBttn" text="Delete">
+                           <HBox.margin>
+                              <Insets left="10.0" right="5.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                     <VBox.margin>
+                        <Insets top="80.0" />
+                     </VBox.margin>
+                  </HBox>
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+               <HBox.margin>
+                  <Insets left="5.0" />
+               </HBox.margin>
+            </VBox>
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </HBox>
+      <HBox alignment="TOP_RIGHT" layoutX="159.0" layoutY="355.0" prefHeight="66.0" prefWidth="930.0">
+         <children>
+            <Button fx:id="exitBttn" alignment="CENTER" mnemonicParsing="false" onAction="#exitBttn" text="Exit" textAlignment="CENTER">
+               <HBox.margin>
+                  <Insets right="30.0" top="30.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <padding>
+            <Insets bottom="10.0" />
+         </padding>
+      </HBox>
+   </children>
+</AnchorPane>

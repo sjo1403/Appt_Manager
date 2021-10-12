@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="addOutsourced" prefHeight="587.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="d">
+   <children>
+      <AnchorPane layoutX="14.0" layoutY="29.0" prefHeight="540.0" prefWidth="600.0">
+         <children>
+            <HBox layoutY="120.0" prefHeight="50.0" prefWidth="500.0">
+               <children>
+                  <Label text="ID">
+                     <HBox.margin>
+                        <Insets left="50.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="IDtxt" editable="false" opacity="0.5" style="-fx-background-color: gray;" text="Auto Gen- Disabled">
+                     <HBox.margin>
+                        <Insets left="80.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font name="System Italic" size="13.0" />
+                     </font>
+                  </TextField>
+               </children>
+               <padding>
+                  <Insets top="20.0" />
+               </padding>
+            </HBox>
+            <HBox layoutY="170.0" prefHeight="50.0" prefWidth="500.0">
+               <children>
+                  <Label text="Title">
+                     <HBox.margin>
+                        <Insets left="50.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="nameTxt">
+                     <HBox.margin>
+                        <Insets left="70.0" />
+                     </HBox.margin>
+                  </TextField>
+               </children>
+               <padding>
+                  <Insets top="20.0" />
+               </padding>
+            </HBox>
+            <HBox layoutY="220.0" prefHeight="50.0" prefWidth="500.0">
+               <children>
+                  <Label text="Description">
+                     <HBox.margin>
+                        <Insets left="50.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="invTxt" prefHeight="27.0" prefWidth="80.0">
+                     <HBox.margin>
+                        <Insets left="30.0" />
+                     </HBox.margin>
+                  </TextField>
+               </children>
+               <padding>
+                  <Insets top="20.0" />
+               </padding>
+            </HBox>
+            <HBox layoutY="270.0" prefHeight="50.0" prefWidth="500.0">
+               <children>
+                  <Label text="Location">
+                     <HBox.margin>
+                        <Insets left="50.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="priceTxt" prefHeight="27.0" prefWidth="80.0">
+                     <HBox.margin>
+                        <Insets left="45.0" />
+                     </HBox.margin>
+                  </TextField>
+               </children>
+               <padding>
+                  <Insets top="20.0" />
+               </padding>
+            </HBox>
+            <HBox layoutY="420.0" prefHeight="50.0" prefWidth="580.0">
+               <children>
+                  <Label text="Start Date">
+                     <HBox.margin>
+                        <Insets left="50.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="maxTxt" prefHeight="27.0" prefWidth="80.0">
+                     <HBox.margin>
+                        <Insets left="38.0" />
+                     </HBox.margin>
+                  </TextField>
+                  <Label text="Start Time">
+                     <HBox.margin>
+                        <Insets left="30.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="minTxt" prefHeight="27.0" prefWidth="80.0">
+                     <HBox.margin>
+                        <Insets left="38.0" />
+                     </HBox.margin>
+                  </TextField>
+               </children>
+               <padding>
+                  <Insets top="20.0" />
+               </padding>
+            </HBox>
+            <HBox prefHeight="50.0" prefWidth="500.0">
+               <children>
+                  <Label text="Update Appointment">
+                     <HBox.margin>
+                        <Insets left="50.0" top="10.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font name="Arial Black" size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets top="20.0" />
+               </padding>
+            </HBox>
+            <HBox layoutY="320.0" prefHeight="50.0" prefWidth="500.0">
+               <children>
+                  <Label text="Contact">
+                     <HBox.margin>
+                        <Insets left="50.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="priceTxt1" prefHeight="27.0" prefWidth="80.0">
+                     <HBox.margin>
+                        <Insets left="48.0" />
+                     </HBox.margin>
+                  </TextField>
+               </children>
+               <padding>
+                  <Insets top="20.0" />
+               </padding>
+            </HBox>
+            <HBox layoutY="370.0" prefHeight="50.0" prefWidth="500.0">
+               <children>
+                  <Label text="Type">
+                     <HBox.margin>
+                        <Insets left="50.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="priceTxt11" prefHeight="27.0" prefWidth="80.0">
+                     <HBox.margin>
+                        <Insets left="65.0" />
+                     </HBox.margin>
+                  </TextField>
+               </children>
+               <padding>
+                  <Insets top="20.0" />
+               </padding>
+            </HBox>
+            <HBox layoutY="470.0" prefHeight="50.0" prefWidth="580.0">
+               <children>
+                  <Label text="End Date">
+                     <HBox.margin>
+                        <Insets left="50.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="maxTxt1" prefHeight="27.0" prefWidth="80.0">
+                     <HBox.margin>
+                        <Insets left="43.0" />
+                     </HBox.margin>
+                  </TextField>
+                  <Label text="End Time">
+                     <HBox.margin>
+                        <Insets left="30.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="minTxt1" prefHeight="27.0" prefWidth="80.0">
+                     <HBox.margin>
+                        <Insets left="43.0" />
+                     </HBox.margin>
+                  </TextField>
+               </children>
+               <padding>
+                  <Insets top="20.0" />
+               </padding>
+            </HBox>
+         </children>
+      </AnchorPane>
+      <HBox layoutX="445.0" layoutY="528.0" prefHeight="50.0" prefWidth="500.0">
+         <children>
+            <Button fx:id="saveBttn" mnemonicParsing="false" onAction="#saveBttn" text="Save">
+               <HBox.margin>
+                  <Insets left="360.0" top="15.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="cancelBttn" mnemonicParsing="false" onAction="#cancelBttn" text="Cancel">
+               <HBox.margin>
+                  <Insets left="25.0" top="15.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
+      <VBox layoutX="470.0" layoutY="58.0" prefHeight="205.0" prefWidth="457.0" style="-fx-border-color: black; -fx-border-radius: 20;">
+         <children>
+            <HBox prefHeight="52.0" prefWidth="289.0">
+               <children>
+                  <Button fx:id="searchProductBttnsearchProductBttn" mnemonicParsing="false" onAction="#searchProductBttn" text="Search">
+                     <HBox.margin>
+                        <Insets left="162.0" />
+                     </HBox.margin>
+                  </Button>
+                  <TextField fx:id="searchTxt" prefHeight="27.0" prefWidth="190.0">
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </TextField>
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="445.0">
+               <children>
+                  <TableView fx:id="upperTable" prefHeight="105.0" prefWidth="380.0">
+                     <columns>
+                        <TableColumn fx:id="custIDCol" prefWidth="85.0" text="Customer ID" />
+                        <TableColumn fx:id="custNameCol" prefWidth="101.0" text="Customer Name" />
+                        <TableColumn fx:id="countryCol" prefWidth="103.0" text="Country" />
+                        <TableColumn fx:id="divisionCol" minWidth="4.0" prefWidth="97.0" text="Division" />
+                     </columns>
+                     <HBox.margin>
+                        <Insets left="35.0" />
+                     </HBox.margin>
+                  </TableView>
+               </children>
+            </HBox>
+            <HBox alignment="BOTTOM_RIGHT" prefHeight="30.0" prefWidth="290.0">
+               <VBox.margin>
+                  <Insets top="30.0" />
+               </VBox.margin>
+               <children>
+                  <Button fx:id="addBttn" mnemonicParsing="false" onAction="#addBttn" text="Add">
+                     <HBox.margin>
+                        <Insets bottom="5.0" right="30.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </VBox>
+      <VBox layoutX="470.0" layoutY="277.0" prefHeight="205.0" prefWidth="457.0" style="-fx-border-color: black; -fx-border-radius: 20;">
+         <children>
+            <HBox prefHeight="52.0" prefWidth="289.0" />
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <TableView fx:id="lowerTable" prefHeight="140.0" prefWidth="380.0">
+                     <columns>
+                        <TableColumn fx:id="lowCustIDCol" prefWidth="85.0" text="Customer ID" />
+                        <TableColumn fx:id="lowCustNameCol" prefWidth="101.0" text="Customer Name" />
+                        <TableColumn fx:id="lowCountryCol" prefWidth="103.0" text="Country" />
+                        <TableColumn fx:id="lowDivisionCol" minWidth="4.0" prefWidth="97.0" text="Division" />
+                     </columns>
+                     <HBox.margin>
+                        <Insets left="35.0" />
+                     </HBox.margin>
+                  </TableView>
+               </children>
+            </HBox>
+            <HBox alignment="BOTTOM_RIGHT" prefHeight="30.0" prefWidth="290.0">
+               <VBox.margin>
+                  <Insets top="30.0" />
+               </VBox.margin>
+               <children>
+                  <Button fx:id="deleteBttn" mnemonicParsing="false" onAction="#deleteBttn" text="Delete">
+                     <HBox.margin>
+                        <Insets bottom="5.0" right="30.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </VBox>
+   </children>
+</AnchorPane>
