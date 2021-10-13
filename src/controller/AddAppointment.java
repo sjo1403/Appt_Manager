@@ -116,7 +116,8 @@ public class AddAppointment {
 
     @FXML
     void saveBttn(ActionEvent event) throws ParseException {
-        String ID = IDtxt.getText();
+        int ID = (int) (Math.random()*(90000)+100000);
+
         String title = titleTxt.getText();
         String description = descriptionTxt.getText();
         String location = locationTxt.getText();
@@ -145,7 +146,6 @@ public class AddAppointment {
                 endDate,
                 endTime);
         Schedule.addAppointment(appointment);
-
         cancelBttn(event);
     }
 

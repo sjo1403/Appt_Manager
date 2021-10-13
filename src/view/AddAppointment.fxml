@@ -209,7 +209,7 @@
          <children>
             <HBox prefHeight="52.0" prefWidth="289.0">
                <children>
-                  <Button fx:id="searchProductBttnsearchProductBttn" mnemonicParsing="false" onAction="#searchProductBttn" text="Search">
+                  <Button fx:id="searchProductBttn" mnemonicParsing="false" onAction="#searchProductBttn" text="Search">
                      <HBox.margin>
                         <Insets left="162.0" />
                      </HBox.margin>

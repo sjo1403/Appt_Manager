@@ -1,10 +1,13 @@
 package model;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.util.ArrayList;
 
 public class Schedule {
-    private static ArrayList<Customer> customers = new ArrayList<Customer>();
-    private static ArrayList<Appointment> appointments = new ArrayList<Appointment>();
+    private static ObservableList<Customer> customers = FXCollections.observableArrayList();
+    private static ObservableList<Appointment> appointments = FXCollections.observableArrayList();
 
     public static void addCustomer(Customer customer){
         customers.add(customer);
@@ -18,7 +21,7 @@ public class Schedule {
         customers.set(index, customer);
     }
 
-    public static ArrayList<Customer> getAllCustomers() {
+    public static ObservableList<Customer> getAllCustomers() {
         return customers;
     }
 
@@ -34,7 +37,7 @@ public class Schedule {
         appointments.set(index, appointment);
     }
 
-    public static ArrayList<Appointment> getAllAppointments() {
+    public static ObservableList<Appointment> getAllAppointments() {
         return appointments;
     }
 }

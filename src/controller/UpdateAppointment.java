@@ -8,6 +8,12 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import model.Appointment;
+import model.Schedule;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class UpdateAppointment {
 
@@ -24,6 +30,9 @@ public class UpdateAppointment {
     private Button cancelBttn;
 
     @FXML
+    private TextField contactTxt;
+
+    @FXML
     private TableColumn<?, ?> countryCol;
 
     @FXML
@@ -36,10 +45,19 @@ public class UpdateAppointment {
     private Button deleteBttn;
 
     @FXML
+    private TextField descriptionTxt;
+
+    @FXML
     private TableColumn<?, ?> divisionCol;
 
     @FXML
-    private TextField invTxt;
+    private TextField endDateTxt;
+
+    @FXML
+    private TextField endTimeTxt;
+
+    @FXML
+    private TextField locationTxt;
 
     @FXML
     private TableColumn<?, ?> lowCountryCol;
@@ -57,30 +75,6 @@ public class UpdateAppointment {
     private TableView<?> lowerTable;
 
     @FXML
-    private TextField maxTxt;
-
-    @FXML
-    private TextField maxTxt1;
-
-    @FXML
-    private TextField minTxt;
-
-    @FXML
-    private TextField minTxt1;
-
-    @FXML
-    private TextField nameTxt;
-
-    @FXML
-    private TextField priceTxt;
-
-    @FXML
-    private TextField priceTxt1;
-
-    @FXML
-    private TextField priceTxt11;
-
-    @FXML
     private Button saveBttn;
 
     @FXML
@@ -90,12 +84,20 @@ public class UpdateAppointment {
     private TextField searchTxt;
 
     @FXML
-    private TableView<?> upperTable;
+    private TextField startDateTxt;
 
     @FXML
-    void addBttn(ActionEvent event) {
+    private TextField startTimeTxt;
 
-    }
+    @FXML
+    private TextField titleTxt;
+
+    @FXML
+    private TextField typeTxt;
+
+    @FXML
+    private TableView<?> upperTable;
+
 
     @FXML
     void cancelBttn(ActionEvent event) {
@@ -109,8 +111,37 @@ public class UpdateAppointment {
     }
 
     @FXML
-    void saveBttn(ActionEvent event) {
+    void saveBttn(ActionEvent event) throws ParseException {
 
+        String title = titleTxt.getText();
+        String description = descriptionTxt.getText();
+        String location = locationTxt.getText();
+        String contact = contactTxt.getText();
+        String type = typeTxt.getText();
+
+        //format dates and times
+        String startDateS = startDateTxt.getText();
+        Date startDate = new SimpleDateFormat("dd-MM-yyyy").parse(startDateS);
+        String startTimeS = startTimeTxt.getText();
+        Date startTime = new SimpleDateFormat("hh:mm").parse(startTimeS);
+        String endDateS = endDateTxt.getText();
+        Date endDate = new SimpleDateFormat("dd-MM-yyyy").parse(endDateS);
+        String endTimeS = endTimeTxt.getText();
+        Date endTime = new SimpleDateFormat("hh:mm").parse(endTimeS);
+
+
+        Appointment appointment = new Appointment(0,
+                title,
+                description,
+                location,
+                contact,
+                type,
+                startDate,
+                startTime,
+                endDate,
+                endTime);
+        Schedule.addAppointment(appointment);
+        cancelBttn(event);
     }
 
     @FXML

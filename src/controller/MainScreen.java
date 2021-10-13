@@ -5,12 +5,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.stage.Window;
+import model.Customer;
+import model.Schedule;
 
 import java.io.IOException;
 
@@ -35,19 +37,19 @@ public class MainScreen {
     private TableColumn<?, ?> contactCol;
 
     @FXML
-    private TableColumn<?, ?> countryCol;
+    private TableColumn<Customer, String> countryCol;
 
     @FXML
-    private TableColumn<?, ?> custIDCol;
+    private TableColumn<Customer, String> custIDCol;
 
     @FXML
-    private TableColumn<?, ?> custNameCol;
+    private TableColumn<Customer, String> custNameCol;
 
     @FXML
-    private TableView<?> custTable;
+    private TableView<Customer> custTable;
 
     @FXML
-    private TableColumn<?, ?> customerIDCol;
+    private TableColumn<Customer, String> customerIDCol;
 
     @FXML
     private Button deleteApptBttn;
@@ -59,7 +61,7 @@ public class MainScreen {
     private TableColumn<?, ?> descriptionCol;
 
     @FXML
-    private TableColumn<?, ?> divisionCol;
+    private TableColumn<Customer, String> divisionCol;
 
     @FXML
     private TableColumn<?, ?> endCol;
@@ -97,6 +99,16 @@ public class MainScreen {
     @FXML
     private TableColumn<?, ?> userIDCol;
 
+    public void initialize() {
+        //Customer TableView
+        custTable.setItems(Schedule.getAllCustomers());
+
+        custIDCol.setCellValueFactory(new PropertyValueFactory<>("ID"));
+        custNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        countryCol.setCellValueFactory(new PropertyValueFactory<>("country"));
+        divisionCol.setCellValueFactory(new PropertyValueFactory<>("division"));
+    }
+
     @FXML
     void addApptBttn(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("../view/AddAppointment.fxml"));
@@ -122,7 +134,8 @@ public class MainScreen {
 
     @FXML
     void deleteCustBttn(ActionEvent event) {
-
+        Customer customer = custTable.getSelectionModel().getSelectedItem();
+        Schedule.deleteCustomer(customer);
     }
 
     @FXML
@@ -152,6 +165,11 @@ public class MainScreen {
 
     @FXML
     void updateCustBttn(ActionEvent event) throws IOException {
+        Customer customer = custTable.getSelectionModel().getSelectedItem();
+        int row = custTable.getSelectionModel().selectedIndexProperty().get();
+        UpdateCustomer.selectCustomer(customer);
+        UpdateCustomer.selectRow(row);
+
         Parent root = FXMLLoader.load(getClass().getResource("../view/UpdateCustomer.fxml"));
         Stage primaryStage = new Stage();
         primaryStage.setTitle("Add Customer");

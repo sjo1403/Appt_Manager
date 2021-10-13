@@ -2,26 +2,39 @@ package model;
 
 public class Customer{
 
-    private String ID;
+    private int ID;
     private String name;
     private String address;
     private String postalCode;
     private String phone;
+    private String country;
     private String division;
 
-    public Customer(String ID, String name, String address, String postalCode, String phone, String division) {
-
+    public Customer(int ID,
+                    String name,
+                    String address,
+                    String postalCode,
+                    String phone,
+                    String country,
+                    String division) {
+        this.ID = ID;
+        this.name = name;
+        this.address = address;
+        this.postalCode = postalCode;
+        this.phone = phone;
+        this.country = country;
+        this.division = division;
     }
 
     public Customer() {
 
     }
 
-    public String getID() {
+    public int getID() {
         return ID;
     }
 
-    public void setID(String ID) {
+    public void setID(int ID) {
         this.ID = ID;
     }
 
@@ -57,12 +70,14 @@ public class Customer{
         this.phone = phone;
     }
 
-    public String getDivision() {
-        return division;
+    public String getCountry() {
+        return country;
     }
 
-    public void setDivision(String division) {
-        this.division = division;
-    }
+    public void setCountry(String country) { this.country = country;}
+
+    public String getDivision() { return division; }
+
+    public void setDivision(String division) { this.division = division; }
 
 }

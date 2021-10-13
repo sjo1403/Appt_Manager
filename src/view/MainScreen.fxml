@@ -53,13 +53,16 @@
                   </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <TableView fx:id="custTable" prefHeight="100.0" prefWidth="390.0">
+                        <TableView fx:id="custTable" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="388.0">
                            <columns>
                               <TableColumn fx:id="custIDCol" prefWidth="96.0" text="Customer ID" />
                               <TableColumn fx:id="custNameCol" prefWidth="118.0165023803711" text="Customer Name" />
                               <TableColumn fx:id="countryCol" prefWidth="83.48345947265625" text="Country" />
                               <TableColumn fx:id="divisionCol" prefWidth="89.64459228515625" text="Division" />
                            </columns>
+                           <HBox.margin>
+                              <Insets top="10.0" />
+                           </HBox.margin>
                         </TableView>
                      </children>
                   </HBox>
@@ -78,7 +81,7 @@
                         </Button>
                      </children>
                      <VBox.margin>
-                        <Insets top="80.0" />
+                        <Insets top="10.0" />
                      </VBox.margin>
                   </HBox>
                </children>
@@ -115,7 +118,7 @@
                   </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <TableView fx:id="apptTable" prefHeight="100.0" prefWidth="630.0">
+                        <TableView fx:id="apptTable" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="630.0">
                            <columns>
                               <TableColumn fx:id="apptIDCol" prefWidth="96.14273071289062" text="Appointment ID" />
                               <TableColumn fx:id="apptTitleCol" prefWidth="34.8572998046875" text="Title" />
@@ -128,6 +131,9 @@
                               <TableColumn fx:id="customerIDCol" minWidth="4.0" prefWidth="80.214599609375" text="Customer ID" />
                               <TableColumn fx:id="userIDCol" minWidth="4.0" prefWidth="48.0" text="User ID" />
                            </columns>
+                           <HBox.margin>
+                              <Insets top="10.0" />
+                           </HBox.margin>
                         </TableView>
                      </children>
                   </HBox>
@@ -146,7 +152,7 @@
                         </Button>
                      </children>
                      <VBox.margin>
-                        <Insets top="80.0" />
+                        <Insets top="10.0" />
                      </VBox.margin>
                   </HBox>
                </children>

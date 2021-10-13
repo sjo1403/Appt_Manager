@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="addOutsourced" prefHeight="587.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="d">
+<AnchorPane fx:id="addOutsourced" prefHeight="587.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.UpdateAppointment">
    <children>
       <AnchorPane layoutX="14.0" layoutY="29.0" prefHeight="540.0" prefWidth="600.0">
          <children>
@@ -42,7 +42,7 @@
                         <Insets left="50.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="nameTxt">
+                  <TextField fx:id="titleTxt">
                      <HBox.margin>
                         <Insets left="70.0" />
                      </HBox.margin>
@@ -59,7 +59,7 @@
                         <Insets left="50.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="invTxt" prefHeight="27.0" prefWidth="80.0">
+                  <TextField fx:id="descriptionTxt" prefHeight="27.0" prefWidth="80.0">
                      <HBox.margin>
                         <Insets left="30.0" />
                      </HBox.margin>
@@ -76,7 +76,7 @@
                         <Insets left="50.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="priceTxt" prefHeight="27.0" prefWidth="80.0">
+                  <TextField fx:id="locationTxt" prefHeight="27.0" prefWidth="80.0">
                      <HBox.margin>
                         <Insets left="45.0" />
                      </HBox.margin>
@@ -93,7 +93,7 @@
                         <Insets left="50.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="maxTxt" prefHeight="27.0" prefWidth="80.0">
+                  <TextField fx:id="startDateTxt" prefHeight="27.0" prefWidth="80.0">
                      <HBox.margin>
                         <Insets left="38.0" />
                      </HBox.margin>
@@ -103,7 +103,7 @@
                         <Insets left="30.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="minTxt" prefHeight="27.0" prefWidth="80.0">
+                  <TextField fx:id="startTimeTxt" prefHeight="27.0" prefWidth="80.0">
                      <HBox.margin>
                         <Insets left="38.0" />
                      </HBox.margin>
@@ -135,7 +135,7 @@
                         <Insets left="50.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="priceTxt1" prefHeight="27.0" prefWidth="80.0">
+                  <TextField fx:id="contactTxt" prefHeight="27.0" prefWidth="80.0">
                      <HBox.margin>
                         <Insets left="48.0" />
                      </HBox.margin>
@@ -152,7 +152,7 @@
                         <Insets left="50.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="priceTxt11" prefHeight="27.0" prefWidth="80.0">
+                  <TextField fx:id="typeTxt" prefHeight="27.0" prefWidth="80.0">
                      <HBox.margin>
                         <Insets left="65.0" />
                      </HBox.margin>
@@ -169,7 +169,7 @@
                         <Insets left="50.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="maxTxt1" prefHeight="27.0" prefWidth="80.0">
+                  <TextField fx:id="endDateTxt" prefHeight="27.0" prefWidth="80.0">
                      <HBox.margin>
                         <Insets left="43.0" />
                      </HBox.margin>
@@ -179,7 +179,7 @@
                         <Insets left="30.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="minTxt1" prefHeight="27.0" prefWidth="80.0">
+                  <TextField fx:id="endTimeTxt" prefHeight="27.0" prefWidth="80.0">
                      <HBox.margin>
                         <Insets left="43.0" />
                      </HBox.margin>

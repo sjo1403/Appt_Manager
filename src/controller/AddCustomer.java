@@ -45,16 +45,17 @@ public class AddCustomer {
 
     @FXML
     void saveBttn(ActionEvent event) {
-        String ID = IDtxt.getText();
+        int ID = (int) (Math.random()*(90000)+100000);
+
         String name = nameTxt.getText();
         String address = addressTxt.getText();
         String postalCode = postalTxt.getText();
         String phone = phoneTxt.getText();
+        String country = countryTxt.getText();
         String division = divisonTxt.getText();
 
-        Customer customer = new Customer(ID, name, address, postalCode, phone, division);
+        Customer customer = new Customer(ID, name, address, postalCode, phone, country, division);
         Schedule.addCustomer(customer);
-
         cancelBttn(event);
     }
 
