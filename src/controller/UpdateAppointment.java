@@ -9,13 +9,19 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import model.Appointment;
+import model.Customer;
 import model.Schedule;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class UpdateAppointment {
+
+    private static Appointment appointment;
+
+    private static int row;
 
     @FXML
     private TextField IDtxt;
@@ -24,22 +30,19 @@ public class UpdateAppointment {
     private Button addBttn;
 
     @FXML
-    private AnchorPane addOutsourced;
-
-    @FXML
     private Button cancelBttn;
 
     @FXML
     private TextField contactTxt;
 
     @FXML
-    private TableColumn<?, ?> countryCol;
+    private TableColumn<Customer, String> countryCol;
 
     @FXML
-    private TableColumn<?, ?> custIDCol;
+    private TableColumn<Customer, Integer> custIDCol;
 
     @FXML
-    private TableColumn<?, ?> custNameCol;
+    private TableColumn<Customer, String> custNameCol;
 
     @FXML
     private Button deleteBttn;
@@ -48,7 +51,7 @@ public class UpdateAppointment {
     private TextField descriptionTxt;
 
     @FXML
-    private TableColumn<?, ?> divisionCol;
+    private TableColumn<Customer, String> divisionCol;
 
     @FXML
     private TextField endDateTxt;
@@ -60,19 +63,19 @@ public class UpdateAppointment {
     private TextField locationTxt;
 
     @FXML
-    private TableColumn<?, ?> lowCountryCol;
+    private TableColumn<Customer, String> lowCountryCol;
 
     @FXML
-    private TableColumn<?, ?> lowCustIDCol;
+    private TableColumn<Customer, Integer> lowCustIDCol;
 
     @FXML
-    private TableColumn<?, ?> lowCustNameCol;
+    private TableColumn<Customer, String> lowCustNameCol;
 
     @FXML
-    private TableColumn<?, ?> lowDivisionCol;
+    private TableColumn<Customer, String> lowDivisionCol;
 
     @FXML
-    private TableView<?> lowerTable;
+    private TableView<Customer> lowerTable;
 
     @FXML
     private Button saveBttn;
@@ -96,8 +99,36 @@ public class UpdateAppointment {
     private TextField typeTxt;
 
     @FXML
-    private TableView<?> upperTable;
+    private TableView<Customer> upperTable;
 
+    public static void selectAppointment(Appointment appointmentTBU) {
+        appointment = appointmentTBU;
+    }
+
+    public static void selectRow(int rowTBU) {
+        row = rowTBU;
+    }
+
+    public void initialize(){
+        titleTxt.setText(appointment.getTitle());
+        descriptionTxt.setText(appointment.getDescription());
+        locationTxt.setText(appointment.getLocation());
+        contactTxt.setText(appointment.getContact());
+        typeTxt.setText(appointment.getType());
+
+        //format dates and times
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        DateFormat timeFormat = new SimpleDateFormat("hh:mm:ss");
+        String startDate = dateFormat.format(appointment.getStartDate());
+        String startTime = timeFormat.format(appointment.getStartTime());
+        String endDate = dateFormat.format(appointment.getEndDate());
+        String endTime = timeFormat.format(appointment.getEndTime());
+
+        startDateTxt.setText(startDate);
+        startTimeTxt.setText(startTime);
+        endDateTxt.setText(endDate);
+        endTimeTxt.setText(endTime);
+    }
 
     @FXML
     void cancelBttn(ActionEvent event) {
@@ -107,7 +138,8 @@ public class UpdateAppointment {
 
     @FXML
     void deleteBttn(ActionEvent event) {
-
+        Customer customer = lowerTable.getSelectionModel().getSelectedItem();
+        Schedule.descheduleCustomer(customer);
     }
 
     @FXML
@@ -130,7 +162,7 @@ public class UpdateAppointment {
         Date endTime = new SimpleDateFormat("hh:mm").parse(endTimeS);
 
 
-        Appointment appointment = new Appointment(0,
+        Appointment appointmentUD = new Appointment(appointment.getID(),
                 title,
                 description,
                 location,
@@ -140,7 +172,7 @@ public class UpdateAppointment {
                 startTime,
                 endDate,
                 endTime);
-        Schedule.addAppointment(appointment);
+        Schedule.updateAppointment(appointmentUD, row);
         cancelBttn(event);
     }
 
@@ -149,4 +181,8 @@ public class UpdateAppointment {
 
     }
 
+    public void addBttn(ActionEvent event) {
+        Customer customer = upperTable.getSelectionModel().getSelectedItem();
+        Schedule.scheduleCustomer(customer);
+    }
 }

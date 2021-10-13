@@ -6,9 +6,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import model.Appointment;
+import model.Customer;
 import model.Schedule;
 
 import java.text.ParseException;
@@ -33,13 +35,13 @@ public class AddAppointment {
     private TextField contactTxt;
 
     @FXML
-    private TableColumn<?, ?> countryCol;
+    private TableColumn<Customer, String> countryCol;
 
     @FXML
-    private TableColumn<?, ?> custIDCol;
+    private TableColumn<Customer, Integer> custIDCol;
 
     @FXML
-    private TableColumn<?, ?> custNameCol;
+    private TableColumn<Customer, String> custNameCol;
 
     @FXML
     private Button deleteBttn;
@@ -48,7 +50,7 @@ public class AddAppointment {
     private TextField descriptionTxt;
 
     @FXML
-    private TableColumn<?, ?> divisionCol;
+    private TableColumn<Customer, String> divisionCol;
 
     @FXML
     private TextField endDateTxt;
@@ -60,19 +62,19 @@ public class AddAppointment {
     private TextField locationTxt;
 
     @FXML
-    private TableColumn<?, ?> lowCountryCol;
+    private TableColumn<Customer, String> lowCountryCol;
 
     @FXML
-    private TableColumn<?, ?> lowCustIDCol;
+    private TableColumn<Customer, Integer> lowCustIDCol;
 
     @FXML
-    private TableColumn<?, ?> lowCustNameCol;
+    private TableColumn<Customer, String> lowCustNameCol;
 
     @FXML
-    private TableColumn<?, ?> lowDivisionCol;
+    private TableColumn<Customer, String> lowDivisionCol;
 
     @FXML
-    private TableView<?> lowerTable;
+    private TableView<Customer> lowerTable;
 
     @FXML
     private Button saveBttn;
@@ -96,11 +98,28 @@ public class AddAppointment {
     private TextField typeTxt;
 
     @FXML
-    private TableView<?> upperTable;
+    private TableView<Customer> upperTable;
+
+    public void initialize(){
+        //upper TableView
+        upperTable.setItems(Schedule.getUnscheduledCustomers());
+        custIDCol.setCellValueFactory(new PropertyValueFactory<>("ID"));
+        custNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        countryCol.setCellValueFactory(new PropertyValueFactory<>("country"));
+        divisionCol.setCellValueFactory(new PropertyValueFactory<>("division"));
+
+        //lower TableView
+        lowerTable.setItems(Schedule.getScheduledCustomers());
+        lowCustIDCol.setCellValueFactory(new PropertyValueFactory<>("ID"));
+        lowCustNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        lowCountryCol.setCellValueFactory(new PropertyValueFactory<>("country"));
+        lowDivisionCol.setCellValueFactory(new PropertyValueFactory<>("division"));
+    }
 
     @FXML
     void addBttn(ActionEvent event) {
-
+        Customer customer = upperTable.getSelectionModel().getSelectedItem();
+        Schedule.scheduleCustomer(customer);
     }
 
     @FXML
@@ -111,7 +130,8 @@ public class AddAppointment {
 
     @FXML
     void deleteBttn(ActionEvent event) {
-
+        Customer customer = lowerTable.getSelectionModel().getSelectedItem();
+        Schedule.descheduleCustomer(customer);
     }
 
     @FXML

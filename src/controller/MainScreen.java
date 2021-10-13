@@ -11,10 +11,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import model.Appointment;
 import model.Customer;
 import model.Schedule;
 
 import java.io.IOException;
+import java.util.Date;
 
 public class MainScreen {
 
@@ -25,16 +27,16 @@ public class MainScreen {
     private Button addCustBttn;
 
     @FXML
-    private TableColumn<?, ?> apptIDCol;
+    private TableColumn<Appointment, Integer> apptIDCol;
 
     @FXML
-    private TableView<?> apptTable;
+    private TableView<Appointment> apptTable;
 
     @FXML
-    private TableColumn<?, ?> apptTitleCol;
+    private TableColumn<Appointment, String> apptTitleCol;
 
     @FXML
-    private TableColumn<?, ?> contactCol;
+    private TableColumn<Appointment, String> contactCol;
 
     @FXML
     private TableColumn<Customer, String> countryCol;
@@ -58,19 +60,19 @@ public class MainScreen {
     private Button deleteCustBttn;
 
     @FXML
-    private TableColumn<?, ?> descriptionCol;
+    private TableColumn<Appointment, String> descriptionCol;
 
     @FXML
     private TableColumn<Customer, String> divisionCol;
 
     @FXML
-    private TableColumn<?, ?> endCol;
+    private TableColumn<Appointment, Date> endCol;
 
     @FXML
     private Button exitBttn;
 
     @FXML
-    private TableColumn<?, ?> locationCol;
+    private TableColumn<Appointment, String> locationCol;
 
     @FXML
     private Button searchApptBttn;
@@ -85,10 +87,10 @@ public class MainScreen {
     private TextField searchCustTxt;
 
     @FXML
-    private TableColumn<?, ?> startCol;
+    private TableColumn<Appointment, Date> startCol;
 
     @FXML
-    private TableColumn<?, ?> typeCol;
+    private TableColumn<Appointment, String> typeCol;
 
     @FXML
     private Button updateApptBttn;
@@ -97,7 +99,7 @@ public class MainScreen {
     private Button updateCustBttn;
 
     @FXML
-    private TableColumn<?, ?> userIDCol;
+    private TableColumn<Appointment, String> userIDCol;
 
     public void initialize() {
         //Customer TableView
@@ -107,6 +109,20 @@ public class MainScreen {
         custNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         countryCol.setCellValueFactory(new PropertyValueFactory<>("country"));
         divisionCol.setCellValueFactory(new PropertyValueFactory<>("division"));
+
+        //Appointment TableView
+        apptTable.setItems(Schedule.getAllAppointments());
+
+        apptIDCol.setCellValueFactory(new PropertyValueFactory<>("ID"));
+        apptTitleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
+        descriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+        locationCol.setCellValueFactory(new PropertyValueFactory<>("location"));
+        contactCol.setCellValueFactory(new PropertyValueFactory<>("contact"));
+        typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
+        startCol.setCellValueFactory(new PropertyValueFactory<>("startDate"));
+        endCol.setCellValueFactory(new PropertyValueFactory<>("endDate"));
+        //custIDCol.setCellValueFactory(new PropertyValueFactory<>("customerID"));
+        //userIDCol.setCellValueFactory(new PropertyValueFactory<>("userID"));
     }
 
     @FXML
@@ -129,7 +145,8 @@ public class MainScreen {
 
     @FXML
     void deleteApptBttn(ActionEvent event) {
-
+        Appointment appointment = apptTable.getSelectionModel().getSelectedItem();
+        Schedule.deleteAppointment(appointment);
     }
 
     @FXML
@@ -156,6 +173,11 @@ public class MainScreen {
 
     @FXML
     void updateApptBttn(ActionEvent event) throws IOException {
+        Appointment appointment = apptTable.getSelectionModel().getSelectedItem();
+        int row = apptTable.getSelectionModel().selectedIndexProperty().get();
+        UpdateAppointment.selectAppointment(appointment);
+        UpdateAppointment.selectRow(row);
+
         Parent root = FXMLLoader.load(getClass().getResource("../view/UpdateAppointment.fxml"));
         Stage primaryStage = new Stage();
         primaryStage.setTitle("Add Customer");
