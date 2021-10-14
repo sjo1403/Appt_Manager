@@ -2,7 +2,11 @@ package model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.stage.Stage;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Appointment {
@@ -14,9 +18,7 @@ public class Appointment {
     private String contact;
     private String type;
     private Date startDate;
-    private Date startTime;
     private Date endDate;
-    private Date endTime;
     private int customerID;
 
     public Appointment(int ID,
@@ -26,9 +28,7 @@ public class Appointment {
                        String contact,
                        String type,
                        Date startDate,
-                       Date startTime,
                        Date endDate,
-                       Date endTime,
                        int customerID) {
         this.ID = ID;
         this.title = title;
@@ -37,9 +37,7 @@ public class Appointment {
         this.contact = contact;
         this.type = type;
         this.startDate = startDate;
-        this.startTime = startTime;
         this.endDate = endDate;
-        this.endTime = endTime;
         this.customerID = customerID;
     }
 
@@ -103,28 +101,12 @@ public class Appointment {
         this.startDate = startDate;
     }
 
-    public Date getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
-    }
-
     public Date getEndDate() {
         return endDate;
     }
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
-    }
-
-    public Date getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
     }
 
     public int getCustomerID() {
@@ -168,6 +150,17 @@ public class Appointment {
                 scheduledCustomers.removeAll(customer);
             }
         }
+    }
+
+    public static Date stringToDate(String date) throws ParseException {
+        Date dateD = new SimpleDateFormat("dd-MM-yyyy").parse(date);
+        return dateD;
+    }
+
+    public static String dateToString(Date date) {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String dateS = dateFormat.format(date);
+        return dateS;
     }
 
 }

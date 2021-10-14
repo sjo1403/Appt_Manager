@@ -105,7 +105,7 @@
                         <Insets left="45.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="phoneTxt">
+                  <TextField fx:id="phoneTxt" promptText="xxx-xxx-xxxx">
                      <HBox.margin>
                         <Insets left="35.0" />
                      </HBox.margin>

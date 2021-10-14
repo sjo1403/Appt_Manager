@@ -14,8 +14,11 @@ import model.Customer;
 import model.Schedule;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 
 public class AddAppointment {
 
@@ -103,6 +106,14 @@ public class AddAppointment {
     private TableView<Customer> upperTable;
 
     public void initialize(){
+        LocalDate date = LocalDate.now();
+        LocalTime startTime = LocalTime.now();
+        LocalTime endTime = startTime.plusHours(1);
+
+        //replace all Java.util.date with Java.time.LocalDateTime
+        //startDateTxt.setText(Appointment.dateToString(date));
+        //endDateTxt.setText(Appointment.dateToString(date));
+
         //upper TableView
         upperTable.setItems(Appointment.getUnscheduledCustomers());
         custIDCol.setCellValueFactory(new PropertyValueFactory<>("ID"));
@@ -159,15 +170,8 @@ public class AddAppointment {
         String type = typeTxt.getText();
 
         //format dates and times
-        String startDateS = startDateTxt.getText();
-        Date startDate = new SimpleDateFormat("dd-MM-yyyy").parse(startDateS);
-        String startTimeS = startTimeTxt.getText();
-        Date startTime = new SimpleDateFormat("hh:mm").parse(startTimeS);
-        String endDateS = endDateTxt.getText();
-        Date endDate = new SimpleDateFormat("dd-MM-yyyy").parse(endDateS);
-        String endTimeS = endTimeTxt.getText();
-        Date endTime = new SimpleDateFormat("hh:mm").parse(endTimeS);
-
+        Date startDate = Appointment.stringToDate(startDateTxt.getText());
+        Date endDate = Appointment.stringToDate(endDateTxt.getText());
 
         Appointment appointment = new Appointment(ID,
                 title,
@@ -176,9 +180,7 @@ public class AddAppointment {
                 contact,
                 type,
                 startDate,
-                startTime,
                 endDate,
-                endTime,
                 customer.getID());
         Schedule.addAppointment(appointment);
         cancelBttn(event);

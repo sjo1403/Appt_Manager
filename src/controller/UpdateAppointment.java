@@ -17,7 +17,6 @@ import model.Schedule;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 
 public class UpdateAppointment {
@@ -146,17 +145,11 @@ public class UpdateAppointment {
         typeTxt.setText(appointment.getType());
 
         //format dates and times
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        DateFormat timeFormat = new SimpleDateFormat("hh:mm:ss");
-        String startDate = dateFormat.format(appointment.getStartDate());
-        String startTime = timeFormat.format(appointment.getStartTime());
-        String endDate = dateFormat.format(appointment.getEndDate());
-        String endTime = timeFormat.format(appointment.getEndTime());
+        String startDate = Appointment.dateToString(appointment.getStartDate());
+        String endDate = Appointment.dateToString(appointment.getEndDate());
 
         startDateTxt.setText(startDate);
-        startTimeTxt.setText(startTime);
         endDateTxt.setText(endDate);
-        endTimeTxt.setText(endTime);
 
         //upper TableView
         upperTable.setItems(getUpperTableItems());
@@ -200,14 +193,12 @@ public class UpdateAppointment {
 
         //format dates and times
         String startDateS = startDateTxt.getText();
-        Date startDate = new SimpleDateFormat("dd-MM-yyyy").parse(startDateS);
         String startTimeS = startTimeTxt.getText();
-        Date startTime = new SimpleDateFormat("hh:mm").parse(startTimeS);
         String endDateS = endDateTxt.getText();
-        Date endDate = new SimpleDateFormat("dd-MM-yyyy").parse(endDateS);
         String endTimeS = endTimeTxt.getText();
-        Date endTime = new SimpleDateFormat("hh:mm").parse(endTimeS);
 
+        Date startDate = Appointment.stringToDate(startDateS);
+        Date endDate = Appointment.stringToDate(endDateS);
 
         Appointment appointmentUD = new Appointment(appointment.getID(),
                 title,
@@ -216,9 +207,7 @@ public class UpdateAppointment {
                 contact,
                 type,
                 startDate,
-                startTime,
                 endDate,
-                endTime,
                 customer.getID());
         Schedule.updateAppointment(appointmentUD, row);
         cancelBttn(event);

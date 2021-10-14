@@ -5,18 +5,16 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import model.Appointment;
 import model.Customer;
 import model.Schedule;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.Optional;
 
 public class MainScreen {
 
@@ -148,13 +146,41 @@ public class MainScreen {
     @FXML
     void deleteApptBttn(ActionEvent event) {
         Appointment appointment = apptTable.getSelectionModel().getSelectedItem();
-        Schedule.deleteAppointment(appointment);
+
+        if (appointment == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Select an appointment to delete.");
+            alert.showAndWait();
+            return;
+        }
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Selected appointment will be deleted.");
+        alert.setContentText("Do you wish to continue?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            Schedule.deleteAppointment(appointment);
+        }
     }
 
     @FXML
     void deleteCustBttn(ActionEvent event) {
         Customer customer = custTable.getSelectionModel().getSelectedItem();
-        Schedule.deleteCustomer(customer);
+
+        if (customer == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Select a customer record to delete.");
+            alert.showAndWait();
+            return;
+        }
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Selected customer record will be deleted.");
+        alert.setContentText("Do you wish to continue?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            Schedule.deleteCustomer(customer);
+        }
     }
 
     @FXML
