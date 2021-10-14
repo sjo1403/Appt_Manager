@@ -128,7 +128,7 @@
                               <TableColumn fx:id="typeCol" minWidth="4.0" prefWidth="44.21466064453125" text="Type" />
                               <TableColumn fx:id="startCol" minWidth="4.0" prefWidth="65.3934326171875" text="Start Date" />
                               <TableColumn fx:id="endCol" minWidth="4.0" prefWidth="66.072021484375" text="End Date" />
-                              <TableColumn fx:id="customerIDCol" minWidth="4.0" prefWidth="80.214599609375" text="Customer ID" />
+                              <TableColumn fx:id="apptCustIDCol" minWidth="4.0" prefWidth="80.214599609375" text="Customer ID" />
                               <TableColumn fx:id="userIDCol" minWidth="4.0" prefWidth="48.0" text="User ID" />
                            </columns>
                            <HBox.margin>

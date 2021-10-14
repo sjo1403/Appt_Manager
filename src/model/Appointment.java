@@ -1,5 +1,8 @@
 package model;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.util.Date;
 
 public class Appointment {
@@ -14,6 +17,7 @@ public class Appointment {
     private Date startTime;
     private Date endDate;
     private Date endTime;
+    private int customerID;
 
     public Appointment(int ID,
                        String title,
@@ -24,7 +28,8 @@ public class Appointment {
                        Date startDate,
                        Date startTime,
                        Date endDate,
-                       Date endTime) {
+                       Date endTime,
+                       int customerID) {
         this.ID = ID;
         this.title = title;
         this.description = description;
@@ -35,6 +40,7 @@ public class Appointment {
         this.startTime = startTime;
         this.endDate = endDate;
         this.endTime = endTime;
+        this.customerID = customerID;
     }
 
     public Appointment() {
@@ -119,6 +125,49 @@ public class Appointment {
 
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
+    }
+
+    public int getCustomerID() {
+        return customerID;
+    }
+
+    public void setCustomerID(int customer) {
+        this.customerID = customer;
+    }
+
+    //change the un/scheduled customer methods from static, move to Appointment class
+    private static ObservableList<Customer> unscheduledCustomers = FXCollections.observableArrayList();
+    private static ObservableList<Customer> scheduledCustomers = FXCollections.observableArrayList();
+
+    //change the un/scheduled customer methods from static, move to Appointment class
+    //these methods will use the appointment object as the parameter (customer will be in the Appointment constructor)
+    public static void addUnscheduledCustomer(Customer customer){
+        unscheduledCustomers.add(customer);
+    }
+
+    public static ObservableList<Customer> getScheduledCustomers() {
+        return scheduledCustomers;
+    }
+
+    public static ObservableList<Customer> getUnscheduledCustomers() {
+        return unscheduledCustomers;
+    }
+
+    public static void scheduleCustomer(Customer customer) {
+        unscheduledCustomers.remove(customer);
+        scheduledCustomers.add(customer); }
+
+    public static void descheduleCustomer(Customer customer) {
+        unscheduledCustomers.add(customer);
+        scheduledCustomers.remove(customer); }
+
+    public static void resetSchedule(){
+        for (Customer customer : scheduledCustomers) {
+            if (!unscheduledCustomers.contains(customer)) {
+                unscheduledCustomers.add(customer);
+                scheduledCustomers.removeAll(customer);
+            }
+        }
     }
 
 }

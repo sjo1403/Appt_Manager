@@ -1,12 +1,14 @@
 package controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.Appointment;
 import model.Customer;
@@ -15,13 +17,20 @@ import model.Schedule;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class UpdateAppointment {
 
+    private static Customer customer;
+
     private static Appointment appointment;
 
     private static int row;
+
+    private static ObservableList<Customer> upperTableItems = FXCollections.observableArrayList();
+
+    private static ObservableList<Customer> lowerTableItem = FXCollections.observableArrayList();
 
     @FXML
     private TextField IDtxt;
@@ -109,6 +118,26 @@ public class UpdateAppointment {
         row = rowTBU;
     }
 
+    public static ObservableList<Customer> getUpperTableItems() {
+        for (Customer unScheduledCustomer : Appointment.getUnscheduledCustomers()) {
+            if (!lowerTableItem.contains(unScheduledCustomer)) {
+                upperTableItems.add(unScheduledCustomer);
+            }
+        }
+        return upperTableItems;
+    }
+
+    public static ObservableList<Customer> getLowerTableItem() {
+        int ID = appointment.getCustomerID();
+        for (Customer scheduledCustomer : Schedule.getAllCustomers()) {
+            if (scheduledCustomer.getID() == ID) {
+                customer = scheduledCustomer;
+            }
+        }
+        lowerTableItem.add(customer);
+        return lowerTableItem;
+    }
+
     public void initialize(){
         titleTxt.setText(appointment.getTitle());
         descriptionTxt.setText(appointment.getDescription());
@@ -128,10 +157,27 @@ public class UpdateAppointment {
         startTimeTxt.setText(startTime);
         endDateTxt.setText(endDate);
         endTimeTxt.setText(endTime);
+
+        //upper TableView
+        upperTable.setItems(getUpperTableItems());
+        custIDCol.setCellValueFactory(new PropertyValueFactory<>("ID"));
+        custNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        countryCol.setCellValueFactory(new PropertyValueFactory<>("country"));
+        divisionCol.setCellValueFactory(new PropertyValueFactory<>("division"));
+
+        //lower TableView
+        lowerTable.setItems(getLowerTableItem());
+        lowCustIDCol.setCellValueFactory(new PropertyValueFactory<>("ID"));
+        lowCustNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        lowCountryCol.setCellValueFactory(new PropertyValueFactory<>("country"));
+        lowDivisionCol.setCellValueFactory(new PropertyValueFactory<>("division"));
     }
 
     @FXML
     void cancelBttn(ActionEvent event) {
+        upperTableItems.clear();
+        lowerTableItem.clear();
+
         Stage stage = (Stage) cancelBttn.getScene().getWindow();
         stage.close();
     }
@@ -139,7 +185,8 @@ public class UpdateAppointment {
     @FXML
     void deleteBttn(ActionEvent event) {
         Customer customer = lowerTable.getSelectionModel().getSelectedItem();
-        Schedule.descheduleCustomer(customer);
+        upperTableItems.add(customer);
+        lowerTableItem.remove(customer);
     }
 
     @FXML
@@ -171,9 +218,13 @@ public class UpdateAppointment {
                 startDate,
                 startTime,
                 endDate,
-                endTime);
+                endTime,
+                customer.getID());
         Schedule.updateAppointment(appointmentUD, row);
         cancelBttn(event);
+
+        upperTableItems.clear();
+        lowerTableItem.clear();
     }
 
     @FXML
@@ -183,6 +234,6 @@ public class UpdateAppointment {
 
     public void addBttn(ActionEvent event) {
         Customer customer = upperTable.getSelectionModel().getSelectedItem();
-        Schedule.scheduleCustomer(customer);
+        Appointment.scheduleCustomer(customer);
     }
 }

@@ -19,6 +19,8 @@ import java.util.Date;
 
 public class AddAppointment {
 
+    private Customer customer;
+
     @FXML
     private TextField IDtxt;
 
@@ -102,24 +104,30 @@ public class AddAppointment {
 
     public void initialize(){
         //upper TableView
-        upperTable.setItems(Schedule.getUnscheduledCustomers());
+        upperTable.setItems(Appointment.getUnscheduledCustomers());
         custIDCol.setCellValueFactory(new PropertyValueFactory<>("ID"));
         custNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         countryCol.setCellValueFactory(new PropertyValueFactory<>("country"));
         divisionCol.setCellValueFactory(new PropertyValueFactory<>("division"));
 
         //lower TableView
-        lowerTable.setItems(Schedule.getScheduledCustomers());
+        lowerTable.setItems(Appointment.getScheduledCustomers());
         lowCustIDCol.setCellValueFactory(new PropertyValueFactory<>("ID"));
         lowCustNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         lowCountryCol.setCellValueFactory(new PropertyValueFactory<>("country"));
         lowDivisionCol.setCellValueFactory(new PropertyValueFactory<>("division"));
     }
 
+    public void addSelectedCustomer(Customer customerTBS){
+        customer = customerTBS;
+    }
+
     @FXML
     void addBttn(ActionEvent event) {
         Customer customer = upperTable.getSelectionModel().getSelectedItem();
-        Schedule.scheduleCustomer(customer);
+        Appointment.scheduleCustomer(customer);
+
+        addSelectedCustomer(customer);
     }
 
     @FXML
@@ -128,10 +136,16 @@ public class AddAppointment {
         stage.close();
     }
 
+    public void removeSelectedCustomer(){
+        customer = null;
+    }
+
     @FXML
     void deleteBttn(ActionEvent event) {
         Customer customer = lowerTable.getSelectionModel().getSelectedItem();
-        Schedule.descheduleCustomer(customer);
+        Appointment.descheduleCustomer(customer);
+
+        removeSelectedCustomer();
     }
 
     @FXML
@@ -164,7 +178,8 @@ public class AddAppointment {
                 startDate,
                 startTime,
                 endDate,
-                endTime);
+                endTime,
+                customer.getID());
         Schedule.addAppointment(appointment);
         cancelBttn(event);
     }

@@ -42,7 +42,7 @@ public class MainScreen {
     private TableColumn<Customer, String> countryCol;
 
     @FXML
-    private TableColumn<Customer, String> custIDCol;
+    private TableColumn<Appointment, Integer> custIDCol;
 
     @FXML
     private TableColumn<Customer, String> custNameCol;
@@ -51,7 +51,7 @@ public class MainScreen {
     private TableView<Customer> custTable;
 
     @FXML
-    private TableColumn<Customer, String> customerIDCol;
+    private TableColumn<Customer, String> apptCustIDCol;
 
     @FXML
     private Button deleteApptBttn;
@@ -121,12 +121,14 @@ public class MainScreen {
         typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
         startCol.setCellValueFactory(new PropertyValueFactory<>("startDate"));
         endCol.setCellValueFactory(new PropertyValueFactory<>("endDate"));
-        //custIDCol.setCellValueFactory(new PropertyValueFactory<>("customerID"));
+        apptCustIDCol.setCellValueFactory(new PropertyValueFactory<>("customerID"));
         //userIDCol.setCellValueFactory(new PropertyValueFactory<>("userID"));
     }
 
     @FXML
     void addApptBttn(ActionEvent event) throws IOException {
+        Appointment.resetSchedule();
+
         Parent root = FXMLLoader.load(getClass().getResource("../view/AddAppointment.fxml"));
         Stage primaryStage = new Stage();
         primaryStage.setTitle("Add Customer");
