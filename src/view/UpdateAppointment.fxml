@@ -59,7 +59,7 @@
                         <Insets left="50.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="descriptionTxt" prefHeight="27.0" prefWidth="80.0">
+                  <TextField fx:id="descriptionTxt" prefHeight="26.0" prefWidth="159.6">
                      <HBox.margin>
                         <Insets left="30.0" />
                      </HBox.margin>
@@ -76,7 +76,7 @@
                         <Insets left="50.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="locationTxt" prefHeight="27.0" prefWidth="80.0">
+                  <TextField fx:id="locationTxt" prefHeight="26.0" prefWidth="159.6">
                      <HBox.margin>
                         <Insets left="45.0" />
                      </HBox.margin>
@@ -93,17 +93,7 @@
                         <Insets left="50.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="startDateTxt" prefHeight="27.0" prefWidth="80.0">
-                     <HBox.margin>
-                        <Insets left="38.0" />
-                     </HBox.margin>
-                  </TextField>
-                  <Label text="Start Time">
-                     <HBox.margin>
-                        <Insets left="30.0" />
-                     </HBox.margin>
-                  </Label>
-                  <TextField fx:id="startTimeTxt" prefHeight="27.0" prefWidth="80.0">
+                  <TextField fx:id="startDateTxt" prefHeight="26.0" prefWidth="159.6">
                      <HBox.margin>
                         <Insets left="38.0" />
                      </HBox.margin>
@@ -135,7 +125,7 @@
                         <Insets left="50.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="contactTxt" prefHeight="27.0" prefWidth="80.0">
+                  <TextField fx:id="contactTxt" prefHeight="26.0" prefWidth="159.6">
                      <HBox.margin>
                         <Insets left="48.0" />
                      </HBox.margin>
@@ -152,7 +142,7 @@
                         <Insets left="50.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="typeTxt" prefHeight="27.0" prefWidth="80.0">
+                  <TextField fx:id="typeTxt" prefHeight="26.0" prefWidth="159.6">
                      <HBox.margin>
                         <Insets left="65.0" />
                      </HBox.margin>
@@ -169,17 +159,7 @@
                         <Insets left="50.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="endDateTxt" prefHeight="27.0" prefWidth="80.0">
-                     <HBox.margin>
-                        <Insets left="43.0" />
-                     </HBox.margin>
-                  </TextField>
-                  <Label text="End Time">
-                     <HBox.margin>
-                        <Insets left="30.0" />
-                     </HBox.margin>
-                  </Label>
-                  <TextField fx:id="endTimeTxt" prefHeight="27.0" prefWidth="80.0">
+                  <TextField fx:id="endDateTxt" prefHeight="26.0" prefWidth="159.6">
                      <HBox.margin>
                         <Insets left="43.0" />
                      </HBox.margin>

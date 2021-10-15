@@ -2,23 +2,27 @@ package controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import model.Appointment;
 import model.Customer;
 import model.Schedule;
+import model.TimeCalculations;
 
+import java.sql.Time;
+import java.text.Format;
 import java.text.ParseException;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoField;
+import java.util.ArrayList;
+import java.util.Optional;
 
 public class AddAppointment {
 
@@ -61,9 +65,6 @@ public class AddAppointment {
     private TextField endDateTxt;
 
     @FXML
-    private TextField endTimeTxt;
-
-    @FXML
     private TextField locationTxt;
 
     @FXML
@@ -94,9 +95,6 @@ public class AddAppointment {
     private TextField startDateTxt;
 
     @FXML
-    private TextField startTimeTxt;
-
-    @FXML
     private TextField titleTxt;
 
     @FXML
@@ -106,13 +104,11 @@ public class AddAppointment {
     private TableView<Customer> upperTable;
 
     public void initialize(){
-        LocalDate date = LocalDate.now();
-        LocalTime startTime = LocalTime.now();
-        LocalTime endTime = startTime.plusHours(1);
+        LocalDateTime start = LocalDateTime.now();
+        LocalDateTime end = start.plusHours(1);
 
-        //replace all Java.util.date with Java.time.LocalDateTime
-        //startDateTxt.setText(Appointment.dateToString(date));
-        //endDateTxt.setText(Appointment.dateToString(date));
+        startDateTxt.setText(Appointment.dateToString(start));
+        endDateTxt.setText(Appointment.dateToString(end));
 
         //upper TableView
         upperTable.setItems(Appointment.getUnscheduledCustomers());
@@ -154,9 +150,22 @@ public class AddAppointment {
     @FXML
     void deleteBttn(ActionEvent event) {
         Customer customer = lowerTable.getSelectionModel().getSelectedItem();
-        Appointment.descheduleCustomer(customer);
 
-        removeSelectedCustomer();
+        if (customer == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Select a customer record to remove.");
+            alert.showAndWait();
+            return;
+        }
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setContentText("Selected customer record will be removed. Do you wish to continue?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            Appointment.descheduleCustomer(customer);
+            removeSelectedCustomer();
+        }
     }
 
     @FXML
@@ -168,10 +177,55 @@ public class AddAppointment {
         String location = locationTxt.getText();
         String contact = contactTxt.getText();
         String type = typeTxt.getText();
+        LocalDateTime startDate = null;
+        LocalDateTime endDate = null;
 
         //format dates and times
-        Date startDate = Appointment.stringToDate(startDateTxt.getText());
-        Date endDate = Appointment.stringToDate(endDateTxt.getText());
+        ArrayList<LocalTime> times = new ArrayList<>();
+        times.clear();
+
+        try {
+            startDate = Appointment.stringToDate(startDateTxt.getText());
+            endDate = Appointment.stringToDate(endDateTxt.getText());
+
+            times.add(startDate.toLocalTime());
+            times.add(endDate.toLocalTime());
+        }
+        catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Date/Time entry. " +
+                    "Use the format 'yyyy-MM-dd HH:MM.");
+            alert.showAndWait();
+            return;
+        }
+
+        DateTimeFormatter FORMAT = DateTimeFormatter.ofPattern("HH:mm");
+        LocalTime closing = LocalTime.parse("22:00", FORMAT);
+        LocalTime opening = LocalTime.parse("08:00", FORMAT);
+
+        //validate appointment time
+        for (LocalTime time : times) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Selected appointment time not within hours of operation." +
+                    " Please select valid appointment time (8:00AM-10:00PM EST).");
+
+            //throw an error if appointment outside of business hours
+            if ( time.isAfter(closing) || time.isBefore(opening) ) {
+                alert.showAndWait();
+                return;
+            }
+        }
+
+        if (endDate.isBefore(startDate)) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Start date & time must take place before end date & time.");
+            alert.showAndWait();
+            return;
+        }
+
+        //validate customer selection
+        if (customer == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Customer record must be selected create an appointment.");
+            alert.showAndWait();
+            return;
+        }
 
         Appointment appointment = new Appointment(ID,
                 title,

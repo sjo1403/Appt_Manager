@@ -4,10 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.Appointment;
@@ -17,7 +14,11 @@ import model.Schedule;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Optional;
 
 public class UpdateAppointment {
 
@@ -65,9 +66,6 @@ public class UpdateAppointment {
     private TextField endDateTxt;
 
     @FXML
-    private TextField endTimeTxt;
-
-    @FXML
     private TextField locationTxt;
 
     @FXML
@@ -96,9 +94,6 @@ public class UpdateAppointment {
 
     @FXML
     private TextField startDateTxt;
-
-    @FXML
-    private TextField startTimeTxt;
 
     @FXML
     private TextField titleTxt;
@@ -178,8 +173,22 @@ public class UpdateAppointment {
     @FXML
     void deleteBttn(ActionEvent event) {
         Customer customer = lowerTable.getSelectionModel().getSelectedItem();
-        upperTableItems.add(customer);
-        lowerTableItem.remove(customer);
+
+        if (customer == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Select a customer record to delete.");
+            alert.showAndWait();
+            return;
+        }
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setContentText("Selected customer record will be removed. Do you wish to continue?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            upperTableItems.add(customer);
+            lowerTableItem.remove(customer);
+        }
     }
 
     @FXML
@@ -190,15 +199,55 @@ public class UpdateAppointment {
         String location = locationTxt.getText();
         String contact = contactTxt.getText();
         String type = typeTxt.getText();
+        LocalDateTime startDate = null;
+        LocalDateTime endDate = null;
 
         //format dates and times
-        String startDateS = startDateTxt.getText();
-        String startTimeS = startTimeTxt.getText();
-        String endDateS = endDateTxt.getText();
-        String endTimeS = endTimeTxt.getText();
+        ArrayList<LocalTime> times = new ArrayList<>();
+        times.clear();
 
-        Date startDate = Appointment.stringToDate(startDateS);
-        Date endDate = Appointment.stringToDate(endDateS);
+        try {
+            startDate = Appointment.stringToDate(startDateTxt.getText());
+            endDate = Appointment.stringToDate(endDateTxt.getText());
+
+            times.add(startDate.toLocalTime());
+            times.add(endDate.toLocalTime());
+        }
+        catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Date/Time entry. " +
+                    "Use the format 'yyyy-MM-dd HH:MM.'");
+            alert.showAndWait();
+            return;
+        }
+
+        DateTimeFormatter FORMAT = DateTimeFormatter.ofPattern("HH:mm");
+        LocalTime closing = LocalTime.parse("22:00", FORMAT);
+        LocalTime opening = LocalTime.parse("08:00", FORMAT);
+
+        //validate appointment time
+        for (LocalTime time : times) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Selected appointment time not within hours of operation." +
+                    " Please select valid appointment time (8:00AM-10:00PM EST).");
+
+            //throw an error if appointment outside of business hours
+            if ( time.isAfter(closing) || time.isBefore(opening) ) {
+                alert.showAndWait();
+                return;
+            }
+        }
+
+        if (endDate.isBefore(startDate)) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Start date & time must take place before end date & time.");
+            alert.showAndWait();
+            return;
+        }
+
+        //validate customer selection
+        if (customer == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Customer record must be selected create an appointment.");
+            alert.showAndWait();
+            return;
+        }
 
         Appointment appointmentUD = new Appointment(appointment.getID(),
                 title,

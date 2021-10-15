@@ -148,13 +148,13 @@ public class MainScreen {
         Appointment appointment = apptTable.getSelectionModel().getSelectedItem();
 
         if (appointment == null) {
-            Alert alert = new Alert(Alert.AlertType.WARNING, "Select an appointment to delete.");
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Select an appointment to delete.");
             alert.showAndWait();
             return;
         }
 
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Selected appointment will be deleted.");
-        alert.setContentText("Do you wish to continue?");
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Selected appointment will be deleted. " +
+                "Do you wish to continue?");
 
         Optional<ButtonType> result = alert.showAndWait();
 
@@ -168,13 +168,22 @@ public class MainScreen {
         Customer customer = custTable.getSelectionModel().getSelectedItem();
 
         if (customer == null) {
-            Alert alert = new Alert(Alert.AlertType.WARNING, "Select a customer record to delete.");
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Select a customer record to delete.");
             alert.showAndWait();
             return;
         }
 
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Selected customer record will be deleted.");
-        alert.setContentText("Do you wish to continue?");
+        for (Appointment appointment : Schedule.getAllAppointments()) {
+            if (customer.getID() == appointment.getCustomerID()) {
+                Alert alert = new Alert(Alert.AlertType.WARNING, "Selected customer record is included in an " +
+                        "appointment(s). Please delete corresponding appointment(s) before deleting customer record.");
+                alert.showAndWait();
+                return;
+            }
+        }
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setContentText("Selected customer record will be deleted. Do you wish to continue?");
 
         Optional<ButtonType> result = alert.showAndWait();
 
@@ -203,6 +212,13 @@ public class MainScreen {
     void updateApptBttn(ActionEvent event) throws IOException {
         Appointment appointment = apptTable.getSelectionModel().getSelectedItem();
         int row = apptTable.getSelectionModel().selectedIndexProperty().get();
+
+        if (appointment == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Select an appointment to update.");
+            alert.showAndWait();
+            return;
+        }
+
         UpdateAppointment.selectAppointment(appointment);
         UpdateAppointment.selectRow(row);
 
@@ -217,6 +233,13 @@ public class MainScreen {
     void updateCustBttn(ActionEvent event) throws IOException {
         Customer customer = custTable.getSelectionModel().getSelectedItem();
         int row = custTable.getSelectionModel().selectedIndexProperty().get();
+
+        if (customer == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Select a customer record to update.");
+            alert.showAndWait();
+            return;
+        }
+
         UpdateCustomer.selectCustomer(customer);
         UpdateCustomer.selectRow(row);
 
