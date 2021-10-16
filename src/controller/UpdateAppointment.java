@@ -270,8 +270,15 @@ public class UpdateAppointment {
 
     }
 
+    public void addSelectedCustomer(Customer customerTBS){
+        customer = customerTBS;
+    }
+
     public void addBttn(ActionEvent event) {
         Customer customer = upperTable.getSelectionModel().getSelectedItem();
         Appointment.scheduleCustomer(customer);
+
+        lowerTableItem.add(customer);
+        upperTableItems.remove(customer);
     }
 }

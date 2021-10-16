@@ -1,5 +1,7 @@
 package controller;
 
+import com.sun.webkit.dom.XPathNSResolverImpl;
+import com.sun.webkit.dom.XPathResultImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -11,18 +13,14 @@ import model.Customer;
 import model.Schedule;
 import model.TimeCalculations;
 
-import java.sql.Time;
+import javax.swing.*;
 import java.text.Format;
 import java.text.ParseException;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.TimeZone;
 
 public class AddAppointment {
 
@@ -198,9 +196,29 @@ public class AddAppointment {
             return;
         }
 
+        String rawOffset = OffsetDateTime.now().getOffset().toString();
+        String sign = rawOffset.substring(0,1);
+        String amount = rawOffset.substring(2,3);
+        String offset = sign + amount;
+        String closingX, openingY;
+
+        switch (offset) {
+            case "-6" : closingX = "20:00"; openingY = "06:00";
+            break;
+
+            case "-4" : closingX = "22:00"; openingY = "08:00";
+            break;
+
+            case "+1" : closingX = "03:00"; openingY = "13:00";
+            break;
+
+            default:
+                throw new IllegalStateException("Unexpected value: " + offset);
+        }
+
         DateTimeFormatter FORMAT = DateTimeFormatter.ofPattern("HH:mm");
-        LocalTime closing = LocalTime.parse("22:00", FORMAT);
-        LocalTime opening = LocalTime.parse("08:00", FORMAT);
+        LocalTime closing = LocalTime.parse(closingX, FORMAT);
+        LocalTime opening = LocalTime.parse(openingY, FORMAT);
 
         //validate appointment time
         for (LocalTime time : times) {

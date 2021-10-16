@@ -148,9 +148,9 @@ public class Appointment {
         for (Customer customer : scheduledCustomers) {
             if (!unscheduledCustomers.contains(customer)) {
                 unscheduledCustomers.add(customer);
-                scheduledCustomers.removeAll(customer);
             }
         }
+        scheduledCustomers.clear();
     }
 
     public static LocalDateTime stringToDate(String date) throws ParseException {
