@@ -128,6 +128,26 @@ public class Appointment {
         unscheduledCustomers.add(customer);
     }
 
+    public static void deleteUnscheduledCustomer(Customer customer){
+        unscheduledCustomers.remove(customer);
+    }
+
+    public static void updateCustomer(Integer index, Customer customer) {
+        for (int i = 0; i < unscheduledCustomers.size(); i++) {
+            if (unscheduledCustomers.get(i).getID() == customer.getID()) {
+                unscheduledCustomers.set(i, customer);
+                break;
+            }
+        }
+
+        for (int i = 0; i < scheduledCustomers.size(); i++) {
+            if (scheduledCustomers.get(i).getID() == customer.getID()) {
+                scheduledCustomers.set(i, customer);
+                break;
+            }
+        }
+    }
+
     public static ObservableList<Customer> getScheduledCustomers() {
         return scheduledCustomers;
     }

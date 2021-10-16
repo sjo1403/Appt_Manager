@@ -113,11 +113,12 @@ public class UpdateAppointment {
     }
 
     public static ObservableList<Customer> getUpperTableItems() {
-        for (Customer unScheduledCustomer : Appointment.getUnscheduledCustomers()) {
-            if (!lowerTableItem.contains(unScheduledCustomer)) {
-                upperTableItems.add(unScheduledCustomer);
+        for (Customer customer : Schedule.getAllCustomers()) {
+            if (!lowerTableItem.contains(customer)) {
+                upperTableItems.add(customer);
             }
         }
+
         return upperTableItems;
     }
 
@@ -126,6 +127,7 @@ public class UpdateAppointment {
         for (Customer scheduledCustomer : Schedule.getAllCustomers()) {
             if (scheduledCustomer.getID() == ID) {
                 customer = scheduledCustomer;
+                break;
             }
         }
         lowerTableItem.add(customer);

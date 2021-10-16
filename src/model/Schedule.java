@@ -14,10 +14,12 @@ public class Schedule {
 
     public static void deleteCustomer(Customer customer){
         customers.remove(customer);
+        Appointment.deleteUnscheduledCustomer(customer);
     }
 
     public static void updateCustomer(Customer customer, Integer index){
         customers.set(index, customer);
+        Appointment.updateCustomer(index, customer);
     }
 
     public static ObservableList<Customer> getAllCustomers() {
