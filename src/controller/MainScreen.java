@@ -1,5 +1,6 @@
 package controller;
 
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +18,8 @@ import java.util.Date;
 import java.util.Optional;
 
 public class MainScreen {
+
+    private ObservableList<Appointment> appointmentView = Schedule.getAllAppointments();
 
     @FXML
     private Button addApptBttn;
@@ -109,7 +112,7 @@ public class MainScreen {
         divisionCol.setCellValueFactory(new PropertyValueFactory<>("division"));
 
         //Appointment TableView
-        apptTable.setItems(Schedule.getAllAppointments());
+        apptTable.setItems(appointmentView);
 
         apptIDCol.setCellValueFactory(new PropertyValueFactory<>("ID"));
         apptTitleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
@@ -199,13 +202,23 @@ public class MainScreen {
     }
 
     @FXML
-    void searchApptBttn(ActionEvent event) {
-
+    void allRadio(ActionEvent event) {
+        appointmentView = Schedule.getAllAppointments();
+        initialize();
     }
 
-    @FXML
-    void searchPartBttn(ActionEvent event) {
 
+    @FXML
+    void monthRadio(ActionEvent event) {
+        appointmentView = Schedule.getMonthAppointments();
+        initialize();
+    }
+
+
+    @FXML
+    void weekRadio(ActionEvent event) {
+        appointmentView = Schedule.getWeekAppointments();
+        initialize();
     }
 
     @FXML

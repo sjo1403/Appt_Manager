@@ -114,12 +114,11 @@ public class UpdateAppointment {
 
     public static ObservableList<Customer> getUpperTableItems() {
         for (Customer customer : Schedule.getAllCustomers()) {
-            if (!lowerTableItem.contains(customer)) {
+            if (customer != lowerTableItem.get(0))
                 upperTableItems.add(customer);
             }
-        }
 
-        return upperTableItems;
+    return upperTableItems;
     }
 
     public static ObservableList<Customer> getLowerTableItem() {
@@ -148,19 +147,19 @@ public class UpdateAppointment {
         startDateTxt.setText(startDate);
         endDateTxt.setText(endDate);
 
-        //upper TableView
-        upperTable.setItems(getUpperTableItems());
-        custIDCol.setCellValueFactory(new PropertyValueFactory<>("ID"));
-        custNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
-        countryCol.setCellValueFactory(new PropertyValueFactory<>("country"));
-        divisionCol.setCellValueFactory(new PropertyValueFactory<>("division"));
-
         //lower TableView
         lowerTable.setItems(getLowerTableItem());
         lowCustIDCol.setCellValueFactory(new PropertyValueFactory<>("ID"));
         lowCustNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         lowCountryCol.setCellValueFactory(new PropertyValueFactory<>("country"));
         lowDivisionCol.setCellValueFactory(new PropertyValueFactory<>("division"));
+
+        //upper TableView
+        upperTable.setItems(getUpperTableItems());
+        custIDCol.setCellValueFactory(new PropertyValueFactory<>("ID"));
+        custNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        countryCol.setCellValueFactory(new PropertyValueFactory<>("country"));
+        divisionCol.setCellValueFactory(new PropertyValueFactory<>("division"));
     }
 
     @FXML

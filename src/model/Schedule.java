@@ -3,6 +3,9 @@ package model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.time.LocalDateTime;
+import java.time.chrono.ChronoLocalDateTime;
+
 public class Schedule {
     private static ObservableList<Customer> customers = FXCollections.observableArrayList();
     private static ObservableList<Appointment> appointments = FXCollections.observableArrayList();
@@ -42,4 +45,25 @@ public class Schedule {
         return appointments;
     }
 
+    public static ObservableList<Appointment> getMonthAppointments() {
+        ObservableList<Appointment> monthAppointments = FXCollections.observableArrayList();
+        ChronoLocalDateTime monthLater = ChronoLocalDateTime.from(LocalDateTime.now().plusMonths(1));
+        for (Appointment appointment : getAllAppointments()) {
+            if (appointment.getStartDate().isBefore(monthLater)) {
+                monthAppointments.add(appointment);
+            }
+        }
+        return monthAppointments;
+    }
+
+    public static ObservableList<Appointment> getWeekAppointments() {
+        ObservableList<Appointment> weekAppointments = FXCollections.observableArrayList();
+        ChronoLocalDateTime weekLater = ChronoLocalDateTime.from(LocalDateTime.now().plusWeeks(1));
+        for (Appointment appointment : getAllAppointments()) {
+            if (appointment.getStartDate().isBefore(weekLater)) {
+                weekAppointments.add(appointment);
+            }
+        }
+        return weekAppointments;
+    }
 }
