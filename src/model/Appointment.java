@@ -16,30 +16,33 @@ public class Appointment {
     private String title;
     private String description;
     private String location;
-    private String contact;
     private String type;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     private int customerID;
+    private int contactID;
+    private int userID;
 
     public Appointment(int ID,
                        String title,
                        String description,
                        String location,
-                       String contact,
                        String type,
                        LocalDateTime startDate,
                        LocalDateTime endDate,
-                       int customerID) {
+                       int customerID,
+                       int contactID,
+                       int userID) {
         this.ID = ID;
         this.title = title;
         this.description = description;
         this.location = location;
-        this.contact = contact;
         this.type = type;
         this.startDate = startDate;
         this.endDate = endDate;
         this.customerID = customerID;
+        this.contactID = contactID;
+        this.userID = userID;
     }
 
     public Appointment() {
@@ -78,14 +81,6 @@ public class Appointment {
         this.location = location;
     }
 
-    public String getContact() {
-        return contact;
-    }
-
-    public void setContact(String contact) {
-        this.contact = contact;
-    }
-
     public String getType() {
         return type;
     }
@@ -116,6 +111,22 @@ public class Appointment {
 
     public void setCustomerID(int customer) {
         this.customerID = customer;
+    }
+
+    public int getContactID() {
+        return contactID;
+    }
+
+    public void setContactID(int contactID) {
+        this.contactID = contactID;
+    }
+
+    public int getUserID() {
+        return userID;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
     }
 
     //change the un/scheduled customer methods from static, move to Appointment class

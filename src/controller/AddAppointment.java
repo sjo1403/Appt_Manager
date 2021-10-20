@@ -63,6 +63,9 @@ public class AddAppointment {
     private TextField endDateTxt;
 
     @FXML
+    private TextField userIDTxt;
+
+    @FXML
     private TextField locationTxt;
 
     @FXML
@@ -173,10 +176,11 @@ public class AddAppointment {
         String title = titleTxt.getText();
         String description = descriptionTxt.getText();
         String location = locationTxt.getText();
-        String contact = contactTxt.getText();
+        int contactID = Integer.getInteger(contactTxt.getText());
         String type = typeTxt.getText();
         LocalDateTime startDate = null;
         LocalDateTime endDate = null;
+        int userID = Integer.getInteger(userIDTxt.getText());
 
         //format dates and times
         ArrayList<LocalTime> times = new ArrayList<>();
@@ -249,11 +253,12 @@ public class AddAppointment {
                 title,
                 description,
                 location,
-                contact,
                 type,
                 startDate,
                 endDate,
-                customer.getID());
+                customer.getID(),
+                contactID,
+                userID);
         Schedule.addAppointment(appointment);
         cancelBttn(event);
     }

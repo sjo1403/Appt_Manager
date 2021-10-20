@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="587.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.UpdateAppointment">
+<AnchorPane prefHeight="620.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.UpdateAppointment">
    <children>
       <AnchorPane layoutX="14.0" layoutY="29.0" prefHeight="540.0" prefWidth="600.0">
          <children>
@@ -169,9 +169,26 @@
                   <Insets top="20.0" />
                </padding>
             </HBox>
+            <HBox layoutY="520.0" prefHeight="50.0" prefWidth="580.0">
+               <children>
+                  <Label text="User ID">
+                     <HBox.margin>
+                        <Insets left="50.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="userIDTxt" prefHeight="26.0" prefWidth="159.6">
+                     <HBox.margin>
+                        <Insets left="53.0" />
+                     </HBox.margin>
+                  </TextField>
+               </children>
+               <padding>
+                  <Insets top="20.0" />
+               </padding>
+            </HBox>
          </children>
       </AnchorPane>
-      <HBox layoutX="445.0" layoutY="528.0" prefHeight="50.0" prefWidth="500.0">
+      <HBox layoutX="445.0" layoutY="560.0" prefHeight="50.0" prefWidth="500.0">
          <children>
             <Button fx:id="saveBttn" mnemonicParsing="false" onAction="#saveBttn" text="Save">
                <HBox.margin>

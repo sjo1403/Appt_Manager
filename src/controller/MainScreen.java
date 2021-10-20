@@ -11,6 +11,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.Appointment;
 import model.Customer;
+import model.JDBC;
 import model.Schedule;
 
 import java.io.IOException;
@@ -37,7 +38,7 @@ public class MainScreen {
     private TableColumn<Appointment, String> apptTitleCol;
 
     @FXML
-    private TableColumn<Appointment, String> contactCol;
+    private TableColumn<Appointment, Integer> contactCol;
 
     @FXML
     private TableColumn<Customer, String> countryCol;
@@ -100,7 +101,7 @@ public class MainScreen {
     private Button updateCustBttn;
 
     @FXML
-    private TableColumn<Appointment, String> userIDCol;
+    private TableColumn<Appointment, Integer> userIDCol;
 
     public void initialize() {
         //Customer TableView
@@ -118,12 +119,12 @@ public class MainScreen {
         apptTitleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
         descriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
         locationCol.setCellValueFactory(new PropertyValueFactory<>("location"));
-        contactCol.setCellValueFactory(new PropertyValueFactory<>("contact"));
+        contactCol.setCellValueFactory(new PropertyValueFactory<>("contactID"));
         typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
         startCol.setCellValueFactory(new PropertyValueFactory<>("startDate"));
         endCol.setCellValueFactory(new PropertyValueFactory<>("endDate"));
         apptCustIDCol.setCellValueFactory(new PropertyValueFactory<>("customerID"));
-        //userIDCol.setCellValueFactory(new PropertyValueFactory<>("userID"));
+        userIDCol.setCellValueFactory(new PropertyValueFactory<>("userID"));
     }
 
     @FXML
@@ -133,7 +134,7 @@ public class MainScreen {
         Parent root = FXMLLoader.load(getClass().getResource("../view/AddAppointment.fxml"));
         Stage primaryStage = new Stage();
         primaryStage.setTitle("Add Customer");
-        primaryStage.setScene(new Scene(root, 950, 590));
+        primaryStage.setScene(new Scene(root, 950, 630));
         primaryStage.show();
     }
 
@@ -199,6 +200,8 @@ public class MainScreen {
     void exitBttn(ActionEvent event) {
         Stage stage = (Stage) exitBttn.getScene().getWindow();
         stage.close();
+
+        JDBC.closeConnection();
     }
 
     @FXML
@@ -238,7 +241,7 @@ public class MainScreen {
         Parent root = FXMLLoader.load(getClass().getResource("../view/UpdateAppointment.fxml"));
         Stage primaryStage = new Stage();
         primaryStage.setTitle("Add Customer");
-        primaryStage.setScene(new Scene(root, 950, 590));
+        primaryStage.setScene(new Scene(root, 950, 630));
         primaryStage.show();
     }
 

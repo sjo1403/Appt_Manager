@@ -15,6 +15,10 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+        JDBC.openConnection();
+        JDBC.loadCustomers();
+        JDBC.loadAppointments();
+
         Parent root = FXMLLoader.load(getClass().getResource("../view/Login.fxml"));
         primaryStage.setTitle("Appointment Manager");
         primaryStage.setScene(new Scene(root));

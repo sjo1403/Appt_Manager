@@ -66,6 +66,9 @@ public class UpdateAppointment {
     private TextField endDateTxt;
 
     @FXML
+    private TextField userIDTxt;
+
+    @FXML
     private TextField locationTxt;
 
     @FXML
@@ -137,8 +140,9 @@ public class UpdateAppointment {
         titleTxt.setText(appointment.getTitle());
         descriptionTxt.setText(appointment.getDescription());
         locationTxt.setText(appointment.getLocation());
-        contactTxt.setText(appointment.getContact());
+        contactTxt.setText(Integer.toString(appointment.getContactID()));
         typeTxt.setText(appointment.getType());
+        userIDTxt.setText(Integer.toString(appointment.getUserID()));
 
         //format dates and times
         String startDate = Appointment.dateToString(appointment.getStartDate());
@@ -198,10 +202,11 @@ public class UpdateAppointment {
         String title = titleTxt.getText();
         String description = descriptionTxt.getText();
         String location = locationTxt.getText();
-        String contact = contactTxt.getText();
+        int contactID = Integer.getInteger(contactTxt.getText());
         String type = typeTxt.getText();
         LocalDateTime startDate = null;
         LocalDateTime endDate = null;
+        int userID = Integer.getInteger(userIDTxt.getText());
 
         //format dates and times
         ArrayList<LocalTime> times = new ArrayList<>();
@@ -254,11 +259,12 @@ public class UpdateAppointment {
                 title,
                 description,
                 location,
-                contact,
                 type,
                 startDate,
                 endDate,
-                customer.getID());
+                customer.getID(),
+                contactID,
+                userID);
         Schedule.updateAppointment(appointmentUD, row);
         cancelBttn(event);
 
