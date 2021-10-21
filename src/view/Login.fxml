@@ -10,18 +10,18 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane prefWidth="230.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Login">
+<StackPane prefHeight="150.0" prefWidth="250.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Login">
     <children>
         <StackPane>
             <children>
-                <VBox spacing="10.0">
+                <VBox prefWidth="280.0" spacing="10.0">
                     <children>
                         <GridPane>
                             <children>
                                 <Label text="Username:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
                                 <Label text="Password:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                                <TextField fx:id="userTxt" promptText="Use &quot;open&quot; to login" text="open" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-                                <TextField fx:id="passwordTxt" promptText="Use &quot;sesame&quot; to login" text="sesame" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                <TextField fx:id="userTxt" text="test" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                                <TextField fx:id="passwordTxt" text="test" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                             </children>
                             <columnConstraints>
                                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="148.0" minWidth="10.0" prefWidth="109.0" />
@@ -37,6 +37,7 @@
                                 <Button fx:id="loginBttn" alignment="CENTER" defaultButton="true" mnemonicParsing="false" onAction="#loginBttn" text="Login" StackPane.alignment="CENTER_RIGHT" />
                             </children>
                         </StackPane>
+                  <Label fx:id="zoneTxt" text="Zone ID" />
                     </children>
                 </VBox>
             </children>

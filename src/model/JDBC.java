@@ -1,7 +1,13 @@
 package model;
 
+import com.mysql.cj.protocol.Resultset;
+import javafx.scene.control.Alert;
+
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class JDBC {
     private static final String protocol = "jdbc";
@@ -27,26 +33,58 @@ public class JDBC {
         }
     }
 
+    public static boolean authenticate(String userName, String password) throws SQLException {
+        Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid username and/or password.");
+
+        try {
+            String query = "SELECT COUNT(User_Name) FROM USERS WHERE User_Name = ?";
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, userName);
+            ResultSet rs1 = ps.executeQuery();
+            rs1.next();
+
+            if (rs1.getInt(1) == 1) {
+                query = "SELECT Password FROM USERS WHERE User_Name = ?";
+                ps = connection.prepareStatement(query);
+                ps.setString(1, userName);
+                ResultSet rs2 = ps.executeQuery();
+                rs2.next();
+
+                if (rs2.getString("Password").equals(password)) {
+                    return true;
+                } else {
+                    alert.showAndWait();
+                    return false;
+                }
+            } else {
+                alert.showAndWait();
+                return false;
+            }
+        }
+        catch (SQLException e) {
+            System.out.println(e);
+            return false;
+        }
+    }
+
     public static void loadCustomers() throws SQLException {
         try {
             Statement stmt = connection.createStatement();
-            String query1 = "SELECT COUNTRY_ID FROM FIRST_LEVEL_DIVISIONS " +
+            String query = "SELECT Customer_ID, Customer_Name, Address, Postal_Code, Phone, Country_ID, Division " +
+                    "FROM FIRST_LEVEL_DIVISIONS " +
                     "INNER JOIN CUSTOMERS ON FIRST_LEVEL_DIVISIONS.Division_ID = CUSTOMERS.Division_ID";
-            String query2 = "SELECT Customer_ID, Customer_Name, Address, Postal_Code, Phone, Division_ID " +
-                    "FROM CUSTOMERS";
-            ResultSet rs1 = stmt.executeQuery(query1);
-            rs1.next();
-            int countryID = rs1.getInt("Country_ID");
-            ResultSet rs2 = stmt.executeQuery(query2);
+            ResultSet rs = stmt.executeQuery(query);
 
-        while (rs2.next()) {
-            int ID = rs2.getInt("Customer_ID");
-            String name = rs2.getString("Customer_Name");
-            String address = rs2.getString("Address");
-            String postalCode = rs2.getString("Postal_Code");
-            String phone = rs2.getString("Phone");
-            String country = Integer.toString(countryID);
-            String division = rs2.getString("Division_ID");
+            List<String> countries = Arrays.asList(null ,"US", "UK", "Canada");
+
+        while (rs.next()) {
+            int ID = rs.getInt("Customer_ID");
+            String name = rs.getString("Customer_Name");
+            String address = rs.getString("Address");
+            String postalCode = rs.getString("Postal_Code");
+            String phone = rs.getString("Phone");
+            String country = countries.get(rs.getInt("Country_ID"));
+            String division = rs.getString("Division");
 
             Customer customer = new Customer(ID, name, address, postalCode, phone, country, division);
             Schedule.addCustomer(customer);
@@ -62,7 +100,8 @@ public class JDBC {
         try {
             Statement stmt = connection.createStatement();
             String query1 = "SELECT Appointment_ID, Title, Description, Location, Type, Start, End, " +
-                    "Customer_ID, User_ID, Contact_ID FROM APPOINTMENTS";
+                    "Customer_ID, User_ID, Contact_Name FROM CONTACTS " +
+                    "INNER JOIN APPOINTMENTS ON CONTACTS.Contact_ID = APPOINTMENTS.Contact_ID";
             ResultSet rs1 = stmt.executeQuery(query1);
 
             while (rs1.next()) {
@@ -70,12 +109,11 @@ public class JDBC {
                 String title = rs1.getString("Title");
                 String description = rs1.getString("Description");
                 String location = rs1.getString("Location");
-                String contact = null;
+                String contact = rs1.getString("Contact_Name");
                 String type = rs1.getString("Type");
                 LocalDateTime startDate = rs1.getTimestamp("Start").toLocalDateTime();
                 LocalDateTime endDate = rs1.getTimestamp("End").toLocalDateTime();
                 int customerID = rs1.getInt("Customer_ID");
-                int contactID = rs1.getInt("Contact_ID");
                 int userID = rs1.getInt("User_ID");
 
                 Appointment appointment = new Appointment(ID,
@@ -86,7 +124,7 @@ public class JDBC {
                         startDate,
                         endDate,
                         customerID,
-                        contactID,
+                        contact,
                         userID);
                 Schedule.addAppointment(appointment);
             }

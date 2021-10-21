@@ -11,9 +11,7 @@ import model.Appointment;
 import model.Customer;
 import model.Schedule;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -140,7 +138,7 @@ public class UpdateAppointment {
         titleTxt.setText(appointment.getTitle());
         descriptionTxt.setText(appointment.getDescription());
         locationTxt.setText(appointment.getLocation());
-        contactTxt.setText(Integer.toString(appointment.getContactID()));
+        contactTxt.setText(appointment.getContact());
         typeTxt.setText(appointment.getType());
         userIDTxt.setText(Integer.toString(appointment.getUserID()));
 
@@ -202,11 +200,11 @@ public class UpdateAppointment {
         String title = titleTxt.getText();
         String description = descriptionTxt.getText();
         String location = locationTxt.getText();
-        int contactID = Integer.getInteger(contactTxt.getText());
+        String contact = contactTxt.getText();
         String type = typeTxt.getText();
         LocalDateTime startDate = null;
         LocalDateTime endDate = null;
-        int userID = Integer.getInteger(userIDTxt.getText());
+        int userID = Integer.parseInt(userIDTxt.getText());
 
         //format dates and times
         ArrayList<LocalTime> times = new ArrayList<>();
@@ -263,7 +261,7 @@ public class UpdateAppointment {
                 startDate,
                 endDate,
                 customer.getID(),
-                contactID,
+                contact,
                 userID);
         Schedule.updateAppointment(appointmentUD, row);
         cancelBttn(event);

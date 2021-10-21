@@ -1,7 +1,5 @@
 package controller;
 
-import com.sun.webkit.dom.XPathNSResolverImpl;
-import com.sun.webkit.dom.XPathResultImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -11,16 +9,12 @@ import javafx.stage.Stage;
 import model.Appointment;
 import model.Customer;
 import model.Schedule;
-import model.TimeCalculations;
 
-import javax.swing.*;
-import java.text.Format;
 import java.text.ParseException;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Optional;
-import java.util.TimeZone;
 
 public class AddAppointment {
 
@@ -176,11 +170,11 @@ public class AddAppointment {
         String title = titleTxt.getText();
         String description = descriptionTxt.getText();
         String location = locationTxt.getText();
-        int contactID = Integer.getInteger(contactTxt.getText());
+        String contact = contactTxt.getText();
         String type = typeTxt.getText();
         LocalDateTime startDate = null;
         LocalDateTime endDate = null;
-        int userID = Integer.getInteger(userIDTxt.getText());
+        int userID = Integer.parseInt(userIDTxt.getText());
 
         //format dates and times
         ArrayList<LocalTime> times = new ArrayList<>();
@@ -257,7 +251,7 @@ public class AddAppointment {
                 startDate,
                 endDate,
                 customer.getID(),
-                contactID,
+                contact,
                 userID);
         Schedule.addAppointment(appointment);
         cancelBttn(event);

@@ -20,7 +20,7 @@ public class Appointment {
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     private int customerID;
-    private int contactID;
+    private String contact;
     private int userID;
 
     public Appointment(int ID,
@@ -31,7 +31,7 @@ public class Appointment {
                        LocalDateTime startDate,
                        LocalDateTime endDate,
                        int customerID,
-                       int contactID,
+                       String contact,
                        int userID) {
         this.ID = ID;
         this.title = title;
@@ -41,7 +41,7 @@ public class Appointment {
         this.startDate = startDate;
         this.endDate = endDate;
         this.customerID = customerID;
-        this.contactID = contactID;
+        this.contact = contact;
         this.userID = userID;
     }
 
@@ -113,12 +113,12 @@ public class Appointment {
         this.customerID = customer;
     }
 
-    public int getContactID() {
-        return contactID;
+    public String getContact() {
+        return contact;
     }
 
-    public void setContactID(int contactID) {
-        this.contactID = contactID;
+    public void setContact(String contact) {
+        this.contact = contact;
     }
 
     public int getUserID() {

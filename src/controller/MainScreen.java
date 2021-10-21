@@ -38,7 +38,7 @@ public class MainScreen {
     private TableColumn<Appointment, String> apptTitleCol;
 
     @FXML
-    private TableColumn<Appointment, Integer> contactCol;
+    private TableColumn<Appointment, String> contactCol;
 
     @FXML
     private TableColumn<Customer, String> countryCol;
@@ -119,7 +119,7 @@ public class MainScreen {
         apptTitleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
         descriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
         locationCol.setCellValueFactory(new PropertyValueFactory<>("location"));
-        contactCol.setCellValueFactory(new PropertyValueFactory<>("contactID"));
+        contactCol.setCellValueFactory(new PropertyValueFactory<>("contact"));
         typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
         startCol.setCellValueFactory(new PropertyValueFactory<>("startDate"));
         endCol.setCellValueFactory(new PropertyValueFactory<>("endDate"));

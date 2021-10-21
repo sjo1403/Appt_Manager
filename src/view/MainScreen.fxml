@@ -26,9 +26,9 @@
             </Label>
          </children>
       </HBox>
-      <HBox alignment="CENTER" layoutX="15.0" layoutY="90.0" prefHeight="280.0" prefWidth="1050.0">
+      <HBox alignment="CENTER" layoutY="90.0" prefHeight="280.0" prefWidth="1100.0">
          <children>
-            <VBox prefHeight="246.0" prefWidth="400.0" style="-fx-border-color: black; -fx-border-radius: 20;">
+            <VBox prefHeight="246.0" prefWidth="375.0" style="-fx-border-color: black; -fx-border-radius: 20;">
                <children>
                   <HBox prefHeight="51.0" prefWidth="292.0">
                      <children>
@@ -44,12 +44,12 @@
                   </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <TableView fx:id="custTable" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="388.0">
+                        <TableView fx:id="custTable" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="370.0">
                            <columns>
-                              <TableColumn fx:id="custIDCol" prefWidth="96.0" text="Customer ID" />
-                              <TableColumn fx:id="custNameCol" prefWidth="118.0165023803711" text="Customer Name" />
-                              <TableColumn fx:id="countryCol" prefWidth="83.48345947265625" text="Country" />
-                              <TableColumn fx:id="divisionCol" prefWidth="89.64459228515625" text="Division" />
+                              <TableColumn fx:id="custIDCol" prefWidth="50.0" text="Cust. ID" />
+                              <TableColumn fx:id="custNameCol" prefWidth="115.0" text="Customer Name" />
+                              <TableColumn fx:id="countryCol" prefWidth="90.0" text="Country" />
+                              <TableColumn fx:id="divisionCol" prefWidth="115.0" text="Division" />
                            </columns>
                            <HBox.margin>
                               <Insets top="10.0" />
@@ -83,7 +83,7 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
             </VBox>
-            <VBox prefHeight="246.0" prefWidth="640.0" style="-fx-border-color: black; -fx-border-radius: 20;">
+            <VBox prefHeight="246.0" prefWidth="690.0" style="-fx-border-color: black; -fx-border-radius: 20;">
                <children>
                   <HBox prefHeight="52.0" prefWidth="289.0">
                      <children>
@@ -134,18 +134,18 @@
                   </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <TableView fx:id="apptTable" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="630.0">
+                        <TableView fx:id="apptTable" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="680.0">
                            <columns>
-                              <TableColumn fx:id="apptIDCol" prefWidth="96.14273071289062" text="Appointment ID" />
-                              <TableColumn fx:id="apptTitleCol" prefWidth="34.8572998046875" text="Title" />
-                              <TableColumn fx:id="descriptionCol" prefWidth="74.053955078125" text="Description" />
-                              <TableColumn fx:id="locationCol" minWidth="4.0" prefWidth="60.8753662109375" text="Location" />
-                              <TableColumn fx:id="contactCol" minWidth="4.0" prefWidth="54.89337158203125" text="Contact" />
-                              <TableColumn fx:id="typeCol" minWidth="4.0" prefWidth="44.21466064453125" text="Type" />
-                              <TableColumn fx:id="startCol" minWidth="4.0" prefWidth="65.3934326171875" text="Start Date" />
-                              <TableColumn fx:id="endCol" minWidth="4.0" prefWidth="66.072021484375" text="End Date" />
-                              <TableColumn fx:id="apptCustIDCol" minWidth="4.0" prefWidth="80.214599609375" text="Customer ID" />
-                              <TableColumn fx:id="userIDCol" minWidth="4.0" prefWidth="48.0" text="User ID" />
+                              <TableColumn fx:id="apptIDCol" minWidth="-1.0" prefWidth="51.0" text="Appt. ID" />
+                              <TableColumn fx:id="apptTitleCol" minWidth="-1.0" prefWidth="50.0" text="Title" />
+                              <TableColumn fx:id="descriptionCol" minWidth="-1.0" prefWidth="70.0" text="Description" />
+                              <TableColumn fx:id="locationCol" minWidth="-1.0" prefWidth="60.0" text="Location" />
+                              <TableColumn fx:id="contactCol" minWidth="-1.0" prefWidth="99.0" text="Contact" />
+                              <TableColumn fx:id="typeCol" minWidth="-1.0" prefWidth="50.0" text="Type" />
+                              <TableColumn fx:id="startCol" minWidth="-1.0" prefWidth="100.0" text="Start Date" />
+                              <TableColumn fx:id="endCol" minWidth="-1.0" prefWidth="100.0" text="End Date" />
+                              <TableColumn fx:id="apptCustIDCol" minWidth="-1.0" prefWidth="50.0" text="Cust. ID" />
+                              <TableColumn fx:id="userIDCol" minWidth="-1.0" prefWidth="50.0" text="User ID" />
                            </columns>
                            <HBox.margin>
                               <Insets top="10.0" />
