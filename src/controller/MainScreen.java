@@ -15,6 +15,7 @@ import model.JDBC;
 import model.Schedule;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.Optional;
 
@@ -148,7 +149,7 @@ public class MainScreen {
     }
 
     @FXML
-    void deleteApptBttn(ActionEvent event) {
+    void deleteApptBttn(ActionEvent event) throws SQLException {
         Appointment appointment = apptTable.getSelectionModel().getSelectedItem();
 
         if (appointment == null) {
@@ -163,12 +164,12 @@ public class MainScreen {
         Optional<ButtonType> result = alert.showAndWait();
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            Schedule.deleteAppointment(appointment);
+            JDBC.deleteAppointment(appointment);
         }
     }
 
     @FXML
-    void deleteCustBttn(ActionEvent event) {
+    void deleteCustBttn(ActionEvent event) throws SQLException {
         Customer customer = custTable.getSelectionModel().getSelectedItem();
 
         if (customer == null) {
@@ -192,7 +193,7 @@ public class MainScreen {
         Optional<ButtonType> result = alert.showAndWait();
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            Schedule.deleteCustomer(customer);
+            JDBC.deleteCustomer(customer);
         }
     }
 

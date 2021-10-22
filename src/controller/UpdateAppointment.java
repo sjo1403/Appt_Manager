@@ -9,8 +9,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.Appointment;
 import model.Customer;
+import model.JDBC;
 import model.Schedule;
 
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -40,7 +42,7 @@ public class UpdateAppointment {
     private Button cancelBttn;
 
     @FXML
-    private TextField contactTxt;
+    private ComboBox contactBox;
 
     @FXML
     private TableColumn<Customer, String> countryCol;
@@ -134,11 +136,12 @@ public class UpdateAppointment {
         return lowerTableItem;
     }
 
-    public void initialize(){
+    public void initialize() throws SQLException {
         titleTxt.setText(appointment.getTitle());
         descriptionTxt.setText(appointment.getDescription());
         locationTxt.setText(appointment.getLocation());
-        contactTxt.setText(appointment.getContact());
+        contactBox.getItems().addAll(JDBC.loadContacts());
+        contactBox.getSelectionModel().select(appointment.getContact());
         typeTxt.setText(appointment.getType());
         userIDTxt.setText(Integer.toString(appointment.getUserID()));
 
@@ -191,20 +194,29 @@ public class UpdateAppointment {
         if (result.isPresent() && result.get() == ButtonType.OK) {
             upperTableItems.add(customer);
             lowerTableItem.remove(customer);
+            addSelectedCustomer(null);
         }
     }
 
     @FXML
-    void saveBttn(ActionEvent event) throws ParseException {
+    void saveBttn(ActionEvent event) throws ParseException, SQLException {
 
         String title = titleTxt.getText();
         String description = descriptionTxt.getText();
         String location = locationTxt.getText();
-        String contact = contactTxt.getText();
+        String contact = contactBox.getSelectionModel().getSelectedItem().toString();
         String type = typeTxt.getText();
         LocalDateTime startDate = null;
         LocalDateTime endDate = null;
-        int userID = Integer.parseInt(userIDTxt.getText());
+        int userID;
+        try {
+            userID = Integer.parseInt(userIDTxt.getText());
+        }
+        catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Please enter a valid User ID.");
+            alert.showAndWait();
+            return;
+        }
 
         //format dates and times
         ArrayList<LocalTime> times = new ArrayList<>();
@@ -263,6 +275,7 @@ public class UpdateAppointment {
                 customer.getID(),
                 contact,
                 userID);
+        JDBC.updateAppointment(appointmentUD);
         Schedule.updateAppointment(appointmentUD, row);
         cancelBttn(event);
 
@@ -270,17 +283,20 @@ public class UpdateAppointment {
         lowerTableItem.clear();
     }
 
-    @FXML
-    void searchProductBttn(ActionEvent event) {
-
-    }
-
     public void addSelectedCustomer(Customer customerTBS){
         customer = customerTBS;
     }
 
     public void addBttn(ActionEvent event) {
+        if (lowerTable.getItems().size() > 0) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Only one customer record can be included in an appointment. " +
+                    "Delete current record before adding an alternate record.");
+            alert.showAndWait();
+            return;
+        }
+
         Customer customer = upperTable.getSelectionModel().getSelectedItem();
+        addSelectedCustomer(customer);
         Appointment.scheduleCustomer(customer);
 
         lowerTableItem.add(customer);

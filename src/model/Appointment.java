@@ -109,8 +109,8 @@ public class Appointment {
         return customerID;
     }
 
-    public void setCustomerID(int customer) {
-        this.customerID = customer;
+    public void setCustomerID(int customerID) {
+        this.customerID = customerID;
     }
 
     public String getContact() {
