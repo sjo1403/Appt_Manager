@@ -165,6 +165,9 @@ public class MainScreen {
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
             JDBC.deleteAppointment(appointment);
+            alert = new Alert(Alert.AlertType.CONFIRMATION, "Alert: " + appointment.getType()+" appointment, ID# " +
+                    appointment.getID() + " removed from schedule.");
+            alert.showAndWait();
         }
     }
 

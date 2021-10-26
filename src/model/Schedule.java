@@ -4,7 +4,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.time.LocalDateTime;
-import java.time.chrono.ChronoLocalDateTime;
+import java.time.Month;
+import java.time.Year;
 
 public class Schedule {
     private static ObservableList<Customer> customers = FXCollections.observableArrayList();
@@ -47,23 +48,43 @@ public class Schedule {
 
     public static ObservableList<Appointment> getMonthAppointments() {
         ObservableList<Appointment> monthAppointments = FXCollections.observableArrayList();
-        ChronoLocalDateTime monthLater = ChronoLocalDateTime.from(LocalDateTime.now().plusMonths(1));
+        monthAppointments.clear();
+
+        Month currentMonth = LocalDateTime.now().getMonth();
         for (Appointment appointment : getAllAppointments()) {
-            if (appointment.getStartDate().isBefore(monthLater)) {
+            if (appointment.getStartDate().getMonth() == currentMonth) {
                 monthAppointments.add(appointment);
             }
         }
+
+        int currentYear = LocalDateTime.now().getYear();
+        for (Appointment appointment : getAllAppointments()) {
+            if (appointment.getStartDate().getYear() != currentYear) {
+                monthAppointments.remove(appointment);
+            }
+        }
+
         return monthAppointments;
     }
 
     public static ObservableList<Appointment> getWeekAppointments() {
         ObservableList<Appointment> weekAppointments = FXCollections.observableArrayList();
-        ChronoLocalDateTime weekLater = ChronoLocalDateTime.from(LocalDateTime.now().plusWeeks(1));
+        weekAppointments.clear();
+
+        LocalDateTime weekLater = LocalDateTime.from(LocalDateTime.now().plusWeeks(1));
         for (Appointment appointment : getAllAppointments()) {
             if (appointment.getStartDate().isBefore(weekLater)) {
                 weekAppointments.add(appointment);
             }
         }
+
+        int currentYear = LocalDateTime.now().getYear();
+        for (Appointment appointment : getAllAppointments()) {
+            if (appointment.getStartDate().getYear() != currentYear) {
+                weekAppointments.remove(appointment);
+            }
+        }
+
         return weekAppointments;
     }
 }

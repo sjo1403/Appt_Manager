@@ -34,8 +34,15 @@ public class JDBC {
         }
     }
 
-    public static boolean authenticate(String userName, String password) throws SQLException {
-        Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid username and/or password.");
+    public static boolean authenticate(String userName, String password, String language) throws SQLException {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        if (!language.equals("en")) {
+            alert = new Alert(Alert.AlertType.ERROR, "Nom d'utilisateur et / ou mot de passe incorrect.");
+        }
+
+        else {
+            alert = new Alert(Alert.AlertType.ERROR, "Invalid username and/or password.");
+        }
 
         try {
             String query = "SELECT COUNT(User_Name) FROM USERS WHERE User_Name=?";

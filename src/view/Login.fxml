@@ -18,8 +18,8 @@
                     <children>
                         <GridPane>
                             <children>
-                                <Label text="Username:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                                <Label text="Password:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                                <Label fx:id="userLabel" text="Username:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                <Label fx:id="passwordLabel" text="Password:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
                                 <TextField fx:id="userTxt" text="test" GridPane.columnIndex="1" GridPane.rowIndex="0" />
                                 <TextField fx:id="passwordTxt" text="test" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                             </children>
