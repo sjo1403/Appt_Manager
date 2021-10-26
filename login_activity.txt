@@ -1,0 +1,12 @@
+
+User: test		2021-10-26T15:23:19.183695		Successful Login: false
+User: admin		2021-10-26T15:23:24.741118		Successful Login: false
+User: test		2021-10-26T15:23:28.479988		Successful Login: true
+User: test		2021-10-26T15:32:13.203880		Successful Login: true
+User: test		2021-10-26T15:41:14.815169		Successful Login: true
+User: test		2021-10-26T15:42:18.977729		Successful Login: false
+User: test		2021-10-26T15:42:24.092283		Successful Login: true
+User: admin		2021-10-26T15:47:19.696571		Successful Login: false
+User: test		2021-10-26T15:47:23.223602		Successful Login: true
+User: admin		2021-10-26T15:48:23.557110		Successful Login: false
+User: test		2021-10-26T15:48:27.454246		Successful Login: true
