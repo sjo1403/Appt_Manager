@@ -15,6 +15,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -284,9 +285,35 @@ public class UpdateAppointment {
             return;
         }
 
+        String rawOffset = OffsetDateTime.now().getOffset().toString();
+        String sign = rawOffset.substring(0,1);
+        String amount = rawOffset.substring(2,3);
+        String offset = sign + amount;
+        String closingX, openingY;
+
+        switch (offset) {
+            case "-9" : closingX = "17:00"; openingY = "03:00";
+                break;
+
+            case "-8" : closingX = "18:00"; openingY = "04:00";
+                break;
+
+            case "-6" : closingX = "20:00"; openingY = "06:00";
+                break;
+
+            case "-4" : closingX = "22:00"; openingY = "08:00";
+                break;
+
+            case "+1" : closingX = "03:00"; openingY = "13:00";
+                break;
+
+            default:
+                throw new IllegalStateException("Unexpected value: " + offset);
+        }
+
         DateTimeFormatter FORMAT = DateTimeFormatter.ofPattern("HH:mm");
-        LocalTime closing = LocalTime.parse("22:00", FORMAT);
-        LocalTime opening = LocalTime.parse("08:00", FORMAT);
+        LocalTime closing = LocalTime.parse(closingX, FORMAT);
+        LocalTime opening = LocalTime.parse(openingY, FORMAT);
 
         //validate appointment time
         for (LocalTime time : times) {

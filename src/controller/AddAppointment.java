@@ -264,6 +264,12 @@ public class AddAppointment {
         String closingX, openingY;
 
         switch (offset) {
+            case "-9" : closingX = "17:00"; openingY = "03:00";
+                break;
+
+            case "-8" : closingX = "18:00"; openingY = "04:00";
+                break;
+
             case "-6" : closingX = "20:00"; openingY = "06:00";
             break;
 
