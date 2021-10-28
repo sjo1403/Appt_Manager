@@ -13,9 +13,9 @@ import model.Appointment;
 import model.Customer;
 import model.JDBC;
 import model.Schedule;
-
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Optional;
 
@@ -104,6 +104,9 @@ public class MainScreen {
     @FXML
     private TableColumn<Appointment, Integer> userIDCol;
 
+    /**
+     * sets customer and appointment TableViews
+     */
     public void initialize() {
         //Customer TableView
         custTable.setItems(Schedule.getAllCustomers());
@@ -128,6 +131,11 @@ public class MainScreen {
         userIDCol.setCellValueFactory(new PropertyValueFactory<>("userID"));
     }
 
+    /**
+     * navigates user to 'Add Appointment' screen
+     * @param event method executes when button is clicked
+     * @throws IOException handles IO exceptions
+     */
     @FXML
     void addApptBttn(ActionEvent event) throws IOException {
         Appointment.resetSchedule();
@@ -139,6 +147,11 @@ public class MainScreen {
         primaryStage.show();
     }
 
+    /**
+     * navigates user to 'Add Customer' screen
+     * @param event method executes when button is clicked
+     * @throws IOException handles IO exceptions
+     */
     @FXML
     void addCustBttn(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("../view/AddCustomer.fxml"));
@@ -148,6 +161,11 @@ public class MainScreen {
         primaryStage.show();
     }
 
+    /**
+     * deletes appointment from TableView and database
+     * @param event method executes when button is clicked
+     * @throws SQLException handles SQL exceptions
+     */
     @FXML
     void deleteApptBttn(ActionEvent event) throws SQLException {
         Appointment appointment = apptTable.getSelectionModel().getSelectedItem();
@@ -171,6 +189,11 @@ public class MainScreen {
         }
     }
 
+    /**
+     * deletes customer from TableView and database
+     * @param event method executes when button is clicked
+     * @throws SQLException handles SQL exception
+     */
     @FXML
     void deleteCustBttn(ActionEvent event) throws SQLException {
         Customer customer = custTable.getSelectionModel().getSelectedItem();
@@ -200,6 +223,10 @@ public class MainScreen {
         }
     }
 
+    /**
+     * closes database connection and closes program
+     * @param event method executes when button is clicked
+     */
     @FXML
     void exitBttn(ActionEvent event) {
         Stage stage = (Stage) exitBttn.getScene().getWindow();
@@ -208,26 +235,41 @@ public class MainScreen {
         JDBC.closeConnection();
     }
 
+    /**
+     * displays all appointments
+     * @param event method executes when button is clicked
+     */
     @FXML
     void allRadio(ActionEvent event) {
         appointmentView = Schedule.getAllAppointments();
         initialize();
     }
 
-
+    /**
+     * filters appointments by current month
+     * @param event method executes when button is clicked
+     */
     @FXML
     void monthRadio(ActionEvent event) {
         appointmentView = Schedule.getMonthAppointments();
         initialize();
     }
 
-
+    /**
+     * filters appointments by current day, plus seven days
+     * @param event method executes when button is clicked
+     */
     @FXML
     void weekRadio(ActionEvent event) {
         appointmentView = Schedule.getWeekAppointments();
         initialize();
     }
 
+    /**
+     * navigates user to 'Update Appointment' screen
+     * @param event method executes when button is clicked
+     * @throws IOException handles IO exception
+     */
     @FXML
     void updateApptBttn(ActionEvent event) throws IOException {
         Appointment appointment = apptTable.getSelectionModel().getSelectedItem();
@@ -249,6 +291,11 @@ public class MainScreen {
         primaryStage.show();
     }
 
+    /**
+     * navigates user to 'Update Customer' screen
+     * @param event method executes when button is clicked
+     * @throws IOException handles IO exceptions
+     */
     @FXML
     void updateCustBttn(ActionEvent event) throws IOException {
         Customer customer = custTable.getSelectionModel().getSelectedItem();
@@ -268,6 +315,122 @@ public class MainScreen {
         primaryStage.setTitle("Add Customer");
         primaryStage.setScene(new Scene(root, 560, 450));
         primaryStage.show();
+    }
+
+    /**
+     * generates report in UI
+     * @param event method executes when button is clicked
+     */
+    @FXML
+    void reportBttn(ActionEvent event) {
+        StringBuilder report = new StringBuilder();
+
+        StringBuilder custCountry = new StringBuilder();
+        StringBuilder usCust = new StringBuilder();
+        StringBuilder ukCust = new StringBuilder();
+        StringBuilder canCust = new StringBuilder();
+
+        StringBuilder custAppt = new StringBuilder();
+
+        StringBuilder contactSched = new StringBuilder();
+
+        custCountry.append("REPORT PART 1: CUSTOMERS BY COUNTRY");
+        Schedule.getAllCustomers().forEach(customer -> {
+
+            if (customer.getCountry().equals("U.S")) {
+                usCust.append("\n" + customer.getName());
+            }
+
+            if (customer.getCountry().equals("UK")) {
+                ukCust.append("\n" + customer.getName());
+            }
+
+            if (customer.getCountry().equals("Canada")) {
+                canCust.append("\n" + customer.getName());
+            }
+        });
+        custCountry.append("\n\nUS Customers: ");
+        custCountry.append(usCust);
+        custCountry.append("\n\nUK Customers: ");
+        custCountry.append(ukCust);
+        custCountry.append("\n\nCanada Customers: ");
+        custCountry.append(canCust);
+
+
+
+        custAppt.append("\n\nREPORT PART 2: APPOINTMENTS BY TYPE AND MONTH\n\n");
+        ArrayList<String> apptTypes = new ArrayList<>();
+        ArrayList<String> apptMonths = new ArrayList<>();
+        ArrayList<String> Contacts = new ArrayList<>();
+
+        Schedule.getAllAppointments().forEach(appointment -> {
+            if (!apptTypes.contains(appointment.getType())) {
+                apptTypes.add(appointment.getType());
+            }
+        });
+
+        apptTypes.forEach(type -> {
+            int sum = 0;
+            custAppt.append(type + " Appointments: ");
+
+            for (Appointment appointment : Schedule.getAllAppointments()) {
+                if (appointment.getType().equals(type)) {
+                    sum += 1;
+                }
+            }
+            custAppt.append(sum + "\n\n");
+        });
+
+        Schedule.getAllAppointments().forEach(appointment ->  {
+            if (!apptMonths.contains(appointment.getStartDate().getMonth().toString())) {
+                apptMonths.add(appointment.getStartDate().getMonth().toString());
+            }
+        });
+
+        apptMonths.forEach(month -> {
+            int sum = 0;
+            custAppt.append(month + " Appointments: ");
+
+            for (Appointment appointment : Schedule.getAllAppointments()) {
+                if (appointment.getStartDate().getMonth().toString().equals(month)) {
+                    sum += 1;
+                }
+            }
+            custAppt.append(sum + "\n\n");
+        });
+
+
+
+        contactSched.append("REPORT PART 3: CONTACT SCHEDULES\n");
+        Schedule.getAllAppointments().forEach(appointment -> {
+            if (!Contacts.contains(appointment.getContact())) {
+                Contacts.add(appointment.getContact());
+            }
+        });
+
+        Contacts.forEach(contact -> {
+            contactSched.append("\n" + contact + "'s Appointments: \n");
+
+            Schedule.getAllAppointments().forEach(appointment -> {
+                if (contact.equals(appointment.getContact())) {
+
+                    contactSched.append("Appointment ID: " + appointment.getID() + "\t" + appointment.getTitle() + " " +
+                            appointment.getType() + " " + appointment.getDescription() + " " + appointment.getLocation()
+                            + " " + appointment.getStartDate() + " " + appointment.getEndDate() + "\tCustomer ID: " +
+                            appointment.getCustomerID() + "\n");
+
+                }
+            });
+        });
+
+
+        report.append(custCountry);
+        report.append(custAppt);
+        report.append(contactSched);
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, report.toString());
+        alert.setTitle("REPORT");
+        alert.showAndWait();
     }
 
 }

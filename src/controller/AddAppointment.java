@@ -193,15 +193,7 @@ public class AddAppointment {
         String type = typeTxt.getText();
         LocalDateTime startDate = null;
         LocalDateTime endDate = null;
-        int userID;
-        try {
-            userID = Integer.parseInt(userIDTxt.getText());
-        }
-        catch (Exception e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Please enter a valid User ID.");
-            alert.showAndWait();
-            return;
-        }
+        int userID = 1;
 
         //format dates and times
         ArrayList<LocalTime> times = new ArrayList<>();
@@ -274,6 +266,45 @@ public class AddAppointment {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Only one customer record can be included in an appointment.");
             alert.showAndWait();
             return;
+        }
+
+        //validate non-overlapping schedule
+        for (Appointment appointment : Schedule.getAllAppointments()) {
+
+            if (startDate.isEqual(appointment.getStartDate())) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Appointment conflict. " +
+                        "Selected appointment begins during another scheduled appointment.");
+                alert.showAndWait();
+                return;
+            }
+
+            if (endDate.isEqual(appointment.getEndDate())) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Appointment conflict. " +
+                        "Selected appointment ends during another scheduled appointment.");
+                alert.showAndWait();
+                return;
+            }
+
+            if (startDate.isAfter(appointment.getStartDate()) && startDate.isBefore(appointment.getEndDate())) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Appointment conflict. " +
+                        "Selected appointment begins during another scheduled appointment.");
+                alert.showAndWait();
+                return;
+            }
+
+            if (endDate.isAfter(appointment.getStartDate()) && endDate.isBefore(appointment.getEndDate())) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Appointment conflict. " +
+                        "Selected appointment ends during another scheduled appointment.");
+                alert.showAndWait();
+                return;
+            }
+
+            if (startDate.isBefore(appointment.getStartDate()) && endDate.isAfter(appointment.getEndDate())) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Appointment conflict. " +
+                        "Selected appointment overtakes another scheduled appointment.");
+                alert.showAndWait();
+                return;
+            }
         }
 
         Appointment appointment = new Appointment(ID,

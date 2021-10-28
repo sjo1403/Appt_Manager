@@ -3,8 +3,6 @@ package model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
-
-import javax.print.DocFlavor;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -21,6 +19,9 @@ public class JDBC {
     private static String password = "Passw0rd!"; // Password
     public static Connection connection;  // Connection Interface
 
+    /**
+     * Opens connection to MySQL database
+     */
     public static void openConnection()
     {
         try {
@@ -34,6 +35,14 @@ public class JDBC {
         }
     }
 
+    /**
+     * Authenticates username and password at login
+     * @param userName username at login
+     * @param password password at login
+     * @param language system language, detected at login
+     * @return true if successfully authenticated, false if unsuccessful
+     * @throws SQLException handles SQLException
+     */
     public static boolean authenticate(String userName, String password, String language) throws SQLException {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         if (!language.equals("en")) {
@@ -75,6 +84,10 @@ public class JDBC {
         }
     }
 
+    /**
+     * Load all customers from database into TableView upon login
+     * @throws SQLException handles sql exception
+     */
     public static void loadAllCustomers() throws SQLException {
         try {
             Statement stmt = connection.createStatement();
@@ -104,6 +117,10 @@ public class JDBC {
         }
     }
 
+    /**
+     * Load newly added customer to TableView
+     * @throws SQLException handles sql exception
+     */
     public static void loadCustomer() throws SQLException {
         try {
             Statement stmt = connection.createStatement();
@@ -132,6 +149,9 @@ public class JDBC {
         }
     }
 
+    /**
+     * Load all appointments from database to TableView upon login
+     */
     public static void loadAllAppointments(){
         try {
             Statement stmt = connection.createStatement();
@@ -171,6 +191,9 @@ public class JDBC {
         }
     }
 
+    /**
+     * load newly added appointment to TableView
+     */
     public static void loadAppointment(){
         try {
             Statement stmt = connection.createStatement();
@@ -210,6 +233,11 @@ public class JDBC {
         }
     }
 
+    /**
+     * load countries from database upon login
+     * @return list of countries in database
+     * @throws SQLException handles sql exception
+     */
     public static ObservableList<String> loadLCountries() throws SQLException {
         ObservableList<String> countries = FXCollections.observableArrayList();
 
@@ -224,6 +252,12 @@ public class JDBC {
         return countries;
     }
 
+    /**
+     * load first level divisions from database upon login
+     * @param countryID used to filter first level divisions by country
+     * @return list of first level divisions in database
+     * @throws SQLException handles sql exception
+     */
     public static ObservableList<String> loadDivisions(int countryID) throws SQLException {
         ObservableList<String> divisions = FXCollections.observableArrayList();
 
@@ -238,6 +272,11 @@ public class JDBC {
         return divisions;
     }
 
+    /**
+     * load contacts from database
+     * @return list of contacts in database
+     * @throws SQLException handles sql exception
+     */
     public static ObservableList<String> loadContacts() throws SQLException {
         ObservableList<String> contacts = FXCollections.observableArrayList();
 
@@ -252,6 +291,11 @@ public class JDBC {
         return contacts;
     }
 
+    /**
+     * save customer info into database
+     * @param customer customer info parsed from customer object
+     * @throws SQLException handles sql exception
+     */
     public static void saveCustomer(Customer customer) throws SQLException{
         String query1 = "SELECT Division_ID FROM FIRST_LEVEL_DIVISIONS WHERE Division = ?";
         PreparedStatement ps1 = connection.prepareStatement(query1);
@@ -273,6 +317,11 @@ public class JDBC {
         loadCustomer();
     }
 
+    /**
+     * updated customer info in database and TableView
+     * @param customer customer to be updated; customer info parsed from customer object
+     * @throws SQLException handles sql exception
+     */
     public static void updateCustomer(Customer customer) throws SQLException{
         String query1 = "SELECT Division_ID FROM FIRST_LEVEL_DIVISIONS WHERE Division=?";
         PreparedStatement ps1 = connection.prepareStatement(query1);
@@ -294,6 +343,11 @@ public class JDBC {
         ps2.execute();
     }
 
+    /**
+     * deletes customer from database and TableView
+     * @param customer customer to be deleted
+     * @throws SQLException handles sql exception
+     */
     public static void deleteCustomer(Customer customer) throws SQLException {
         String query = "DELETE FROM CUSTOMERS WHERE Customer_ID=?";
         PreparedStatement ps = connection.prepareStatement(query);
@@ -302,6 +356,11 @@ public class JDBC {
         Schedule.deleteCustomer(customer);
     }
 
+    /**
+     * saves appointment info in database
+     * @param appointment appointment info parsed from appointment object
+     * @throws SQLException handles sql exception
+     */
     public static void saveAppointment(Appointment appointment) throws SQLException{
         String query1 = "SELECT Contact_ID FROM CONTACTS WHERE Contact_Name=?";
         PreparedStatement ps1 = connection.prepareStatement(query1);
@@ -328,6 +387,11 @@ public class JDBC {
         loadAppointment();
     }
 
+    /**
+     * updates appointment info in TableView and database
+     * @param appointment appointment to be updated, appointment info parsed from appointment object
+     * @throws SQLException handles sql exception
+     */
     public static void updateAppointment(Appointment appointment) throws SQLException{
         String query1 = "SELECT Contact_ID FROM CONTACTS WHERE Contact_Name=?";
         PreparedStatement ps1 = connection.prepareStatement(query1);
@@ -354,6 +418,11 @@ public class JDBC {
         ps2.execute();
     }
 
+    /**
+     * deletes appointment from TableView and database
+     * @param appointment appointment to be deleted
+     * @throws SQLException handles sql exception
+     */
     public static void deleteAppointment(Appointment appointment) throws SQLException{
         String query = "DELETE FROM APPOINTMENTS WHERE Appointment_ID=?";
         PreparedStatement ps = connection.prepareStatement(query);

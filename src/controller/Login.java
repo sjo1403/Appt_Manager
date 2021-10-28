@@ -10,7 +10,6 @@ import javafx.stage.Stage;
 import model.Appointment;
 import model.JDBC;
 import model.Schedule;
-
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
@@ -40,7 +39,10 @@ public class Login {
         @FXML
         private Label zoneTxt;
 
-        public void initialize() {
+    /**
+     * Sets UI language (English or French), and displays ZoneID
+     */
+    public void initialize() {
             String zone = ZoneId.systemDefault().getId();
             zoneTxt.setText(zone);
             lang = System.getProperty("user.language");
@@ -52,6 +54,12 @@ public class Login {
             }
         }
 
+    /**
+     * used to authenticate login credentials, logs login attempts
+     * @param event method executes when login button clicked
+     * @throws IOException handles IO exceptions
+     * @throws SQLException handles SQL exceptions
+     */
         @FXML
         void loginBttn(ActionEvent event) throws IOException, SQLException {
             if (!lang.equals("en")) {
