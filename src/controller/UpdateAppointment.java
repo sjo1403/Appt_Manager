@@ -11,7 +11,6 @@ import model.Appointment;
 import model.Customer;
 import model.JDBC;
 import model.Schedule;
-
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.time.LocalDateTime;
@@ -107,14 +106,26 @@ public class UpdateAppointment {
     @FXML
     private TableView<Customer> upperTable;
 
+    /**
+     * passes selected appointment from MainScreen Controller to UpdateAppointment Controller
+     * @param appointmentTBU appointment to be updated
+     */
     public static void selectAppointment(Appointment appointmentTBU) {
         appointment = appointmentTBU;
     }
 
+    /**
+     * passes selected appointment from MainScreen Controller to UpdateAppointment Controller
+     * @param rowTBU row to be updated
+     */
     public static void selectRow(int rowTBU) {
         row = rowTBU;
     }
 
+    /**
+     * used to set upperTable TableView
+     * @return upperTableItems (customer objects)
+     */
     public static ObservableList<Customer> getUpperTableItems() {
         for (Customer customer : Schedule.getAllCustomers()) {
             if (customer != lowerTableItem.get(0))
@@ -124,6 +135,10 @@ public class UpdateAppointment {
     return upperTableItems;
     }
 
+    /**
+     * used to set lowerTable TableView
+     * @return lowerTableItems (customer objects)
+     */
     public static ObservableList<Customer> getLowerTableItem() {
         int ID = appointment.getCustomerID();
         for (Customer scheduledCustomer : Schedule.getAllCustomers()) {
@@ -136,6 +151,11 @@ public class UpdateAppointment {
         return lowerTableItem;
     }
 
+    /**
+     * sets text boxes with previous appointment info
+     * sets the upperTable and lowerTable TableViews
+     * @throws SQLException handles SQL exceptions
+     */
     public void initialize() throws SQLException {
         titleTxt.setText(appointment.getTitle());
         descriptionTxt.setText(appointment.getDescription());
@@ -167,6 +187,10 @@ public class UpdateAppointment {
         divisionCol.setCellValueFactory(new PropertyValueFactory<>("division"));
     }
 
+    /**
+     * closes stage
+     * @param event executes method when button is clicked
+     */
     @FXML
     void cancelBttn(ActionEvent event) {
         upperTableItems.clear();
@@ -176,6 +200,10 @@ public class UpdateAppointment {
         stage.close();
     }
 
+    /**
+     * removes selected customer from appointment
+     * @param event executes method when button is clicked
+     */
     @FXML
     void deleteBttn(ActionEvent event) {
         Customer customer = lowerTable.getSelectionModel().getSelectedItem();
@@ -198,6 +226,12 @@ public class UpdateAppointment {
         }
     }
 
+    /**
+     * updates appointment info in database
+     * @param event executes method when button is clicked
+     * @throws ParseException handles parse exceptions
+     * @throws SQLException handles SQL exceptions
+     */
     @FXML
     void saveBttn(ActionEvent event) throws ParseException, SQLException {
 
@@ -208,7 +242,29 @@ public class UpdateAppointment {
         String type = typeTxt.getText();
         LocalDateTime startDate = null;
         LocalDateTime endDate = null;
-        int userID = 1;
+        int userID;
+        try {
+            userID = Integer.parseInt(userIDTxt.getText());
+            if (userID != 1 && userID !=2) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid entry for User ID. " +
+                        "Enter '1' for test or '2' for admin.");
+                alert.showAndWait();
+                return;
+            }
+        }
+        catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid entry for User ID. " +
+                    "Enter '1' for test or '2' for admin.");
+            alert.showAndWait();
+            return;
+        }
+
+        if (title.isBlank() || description.isBlank() || location.isBlank() || contact.isBlank() || type.isBlank()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Appointment form has one or more blank sections. " +
+                    "Fill out all sections to schedule an appointment.");
+            alert.showAndWait();
+            return;
+        }
 
         //format dates and times
         ArrayList<LocalTime> times = new ArrayList<>();
@@ -260,35 +316,38 @@ public class UpdateAppointment {
         //validate non-overlapping schedule
         for (Appointment appointment : Schedule.getAllAppointments()) {
 
-            if (startDate.isEqual(appointment.getStartDate())) {
+            if (startDate.isEqual(appointment.getStartDate()) && (customer.getID() != appointment.getCustomerID()) ) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Appointment conflict. " +
                         "Selected appointment begins during another scheduled appointment.");
                 alert.showAndWait();
                 return;
             }
 
-            if (endDate.isEqual(appointment.getEndDate())) {
+            if (endDate.isEqual(appointment.getEndDate()) && (customer.getID() != appointment.getCustomerID()) ) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Appointment conflict. " +
                         "Selected appointment ends during another scheduled appointment.");
                 alert.showAndWait();
                 return;
             }
 
-            if (startDate.isAfter(appointment.getStartDate()) && startDate.isBefore(appointment.getEndDate())) {
+            if (startDate.isAfter(appointment.getStartDate()) && startDate.isBefore(appointment.getEndDate())
+                    && (customer.getID() != appointment.getCustomerID()) ) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Appointment conflict. " +
                         "Selected appointment begins during another scheduled appointment.");
                 alert.showAndWait();
                 return;
             }
 
-            if (endDate.isAfter(appointment.getStartDate()) && endDate.isBefore(appointment.getEndDate())) {
+            if (endDate.isAfter(appointment.getStartDate()) && endDate.isBefore(appointment.getEndDate())
+                    && (customer.getID() != appointment.getCustomerID()) ) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Appointment conflict. " +
                         "Selected appointment ends during another scheduled appointment.");
                 alert.showAndWait();
                 return;
             }
 
-            if (startDate.isBefore(appointment.getStartDate()) && endDate.isAfter(appointment.getEndDate())) {
+            if (startDate.isBefore(appointment.getStartDate()) && endDate.isAfter(appointment.getEndDate())
+                    && (customer.getID() != appointment.getCustomerID()) ) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Appointment conflict. " +
                         "Selected appointment overtakes another scheduled appointment.");
                 alert.showAndWait();
@@ -314,10 +373,18 @@ public class UpdateAppointment {
         lowerTableItem.clear();
     }
 
+    /**
+     * used in lowerTable TableView
+     * @param customerTBS customer to be selected
+     */
     public void addSelectedCustomer(Customer customerTBS){
         customer = customerTBS;
     }
 
+    /**
+     * adds selected customer to appointment
+     * @param event executes method when button is clicked
+     */
     public void addBttn(ActionEvent event) {
         if (lowerTable.getItems().size() > 0) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Only one customer record can be included in an appointment. " +

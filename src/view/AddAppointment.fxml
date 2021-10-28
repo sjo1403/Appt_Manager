@@ -94,7 +94,7 @@
                         <Insets left="50.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="startDateTxt" prefHeight="27.0" prefWidth="159.5">
+                  <TextField fx:id="startDateTxt" prefHeight="27.0" prefWidth="159.5" promptText="YYYY-MM-DD HH:MM">
                      <HBox.margin>
                         <Insets left="38.0" />
                      </HBox.margin>
@@ -160,7 +160,7 @@
                         <Insets left="50.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="endDateTxt" prefHeight="27.0" prefWidth="159.5">
+                  <TextField fx:id="endDateTxt" prefHeight="27.0" prefWidth="159.5" promptText="YYYY-MM-DD HH:MM">
                      <HBox.margin>
                         <Insets left="43.0" />
                      </HBox.margin>

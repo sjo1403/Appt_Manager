@@ -220,6 +220,9 @@ public class MainScreen {
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
             JDBC.deleteCustomer(customer);
+            alert = new Alert(Alert.AlertType.CONFIRMATION, "Alert: " + customer.getName() +
+                    " removed from customer records.");
+            alert.showAndWait();
         }
     }
 
@@ -318,7 +321,8 @@ public class MainScreen {
     }
 
     /**
-     * generates report in UI
+     * generates report in UI, lambda functions in this method implemented to iterate through Customer and Appointment
+     * objects (thus shortening the amount of code and improving efficiency)
      * @param event method executes when button is clicked
      */
     @FXML
@@ -335,7 +339,7 @@ public class MainScreen {
         StringBuilder contactSched = new StringBuilder();
 
         custCountry.append("REPORT PART 1: CUSTOMERS BY COUNTRY");
-        Schedule.getAllCustomers().forEach(customer -> {
+        Schedule.getAllCustomers().forEach(customer -> {    //lambda function for iteration
 
             if (customer.getCountry().equals("U.S")) {
                 usCust.append("\n" + customer.getName());
@@ -363,13 +367,13 @@ public class MainScreen {
         ArrayList<String> apptMonths = new ArrayList<>();
         ArrayList<String> Contacts = new ArrayList<>();
 
-        Schedule.getAllAppointments().forEach(appointment -> {
+        Schedule.getAllAppointments().forEach(appointment -> {    //lambda function for iteration
             if (!apptTypes.contains(appointment.getType())) {
                 apptTypes.add(appointment.getType());
             }
         });
 
-        apptTypes.forEach(type -> {
+        apptTypes.forEach(type -> {    //lambda function for iteration
             int sum = 0;
             custAppt.append(type + " Appointments: ");
 
@@ -381,13 +385,13 @@ public class MainScreen {
             custAppt.append(sum + "\n\n");
         });
 
-        Schedule.getAllAppointments().forEach(appointment ->  {
+        Schedule.getAllAppointments().forEach(appointment ->  {    //lambda function for iteration
             if (!apptMonths.contains(appointment.getStartDate().getMonth().toString())) {
                 apptMonths.add(appointment.getStartDate().getMonth().toString());
             }
         });
 
-        apptMonths.forEach(month -> {
+        apptMonths.forEach(month -> {    //lambda function for iteration
             int sum = 0;
             custAppt.append(month + " Appointments: ");
 
@@ -402,7 +406,7 @@ public class MainScreen {
 
 
         contactSched.append("REPORT PART 3: CONTACT SCHEDULES\n");
-        Schedule.getAllAppointments().forEach(appointment -> {
+        Schedule.getAllAppointments().forEach(appointment -> {    //lambda function for iteration
             if (!Contacts.contains(appointment.getContact())) {
                 Contacts.add(appointment.getContact());
             }
@@ -411,7 +415,7 @@ public class MainScreen {
         Contacts.forEach(contact -> {
             contactSched.append("\n" + contact + "'s Appointments: \n");
 
-            Schedule.getAllAppointments().forEach(appointment -> {
+            Schedule.getAllAppointments().forEach(appointment -> {    //lambda function for iteration
                 if (contact.equals(appointment.getContact())) {
 
                     contactSched.append("Appointment ID: " + appointment.getID() + "\t" + appointment.getTitle() + " " +

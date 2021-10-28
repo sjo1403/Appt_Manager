@@ -10,7 +10,6 @@ import model.Appointment;
 import model.Customer;
 import model.JDBC;
 import model.Schedule;
-
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.time.*;
@@ -100,14 +99,12 @@ public class AddAppointment {
     @FXML
     private TableView<Customer> upperTable;
 
+    /**
+     * sets customer TableView
+     * @throws SQLException handles SQL exceptions
+     */
     public void initialize() throws SQLException {
         contactBox.getItems().addAll(JDBC.loadContacts());
-
-        LocalDateTime start = LocalDateTime.now();
-        LocalDateTime end = start.plusHours(1);
-
-        startDateTxt.setText(Appointment.dateToString(start));
-        endDateTxt.setText(Appointment.dateToString(end));
 
         //upper TableView
         upperTable.setItems(Appointment.getUnscheduledCustomers());
@@ -124,10 +121,18 @@ public class AddAppointment {
         lowDivisionCol.setCellValueFactory(new PropertyValueFactory<>("division"));
     }
 
+    /**
+     * places selected customer to lowerTable TableView
+     * @param customerTBS customer to be selected
+     */
     public void addSelectedCustomer(Customer customerTBS){
         customer = customerTBS;
     }
 
+    /**
+     * adds selected customer to appointment
+     * @param event executes method when button is clicked
+     */
     @FXML
     void addBttn(ActionEvent event) {
         if (lowerTable.getItems().size() > 0) {
@@ -143,16 +148,27 @@ public class AddAppointment {
         addSelectedCustomer(customer);
     }
 
+    /**
+     * closes stage
+     * @param event executes method when button is clicked
+     */
     @FXML
     void cancelBttn(ActionEvent event) {
         Stage stage = (Stage) cancelBttn.getScene().getWindow();
         stage.close();
     }
 
+    /**
+     * places selected customer in upperTable TableView
+     */
     public void removeSelectedCustomer(){
         customer = null;
     }
 
+    /**
+     * removes selected customer from appointment
+     * @param event executes method when button is clicked
+     */
     @FXML
     void deleteBttn(ActionEvent event) {
         Customer customer = lowerTable.getSelectionModel().getSelectedItem();
@@ -174,6 +190,12 @@ public class AddAppointment {
         }
     }
 
+    /**
+     * saves appointment info in database
+     * @param event executes method when button is clicked
+     * @throws ParseException handles parse exception
+     * @throws SQLException handles SQL exception
+     */
     @FXML
     void saveBttn(ActionEvent event) throws ParseException, SQLException {
         int ID = 0;
@@ -193,7 +215,29 @@ public class AddAppointment {
         String type = typeTxt.getText();
         LocalDateTime startDate = null;
         LocalDateTime endDate = null;
-        int userID = 1;
+        int userID;
+        try {
+            userID = Integer.parseInt(userIDTxt.getText());
+            if (userID != 1 && userID!=2) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid entry for User ID. " +
+                        "Enter '1' for test or '2' for admin.");
+                alert.showAndWait();
+                return;
+            }
+        }
+        catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid entry for User ID. " +
+                    "Enter '1' for test or '2' for admin.");
+            alert.showAndWait();
+            return;
+        }
+
+        if (title.isBlank() || description.isBlank() || location.isBlank() || contact.isBlank() || type.isBlank()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Appointment form has one or more blank sections. " +
+                    "Fill out all sections to schedule an appointment.");
+            alert.showAndWait();
+            return;
+        }
 
         //format dates and times
         ArrayList<LocalTime> times = new ArrayList<>();
