@@ -1,5 +1,6 @@
 package controller;
 
+import com.sun.scenario.effect.Offset;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -259,33 +260,24 @@ public class AddAppointment {
 
         String rawOffset = OffsetDateTime.now().getOffset().toString();
         String sign = rawOffset.substring(0,1);
-        String amount = rawOffset.substring(2,3);
-        String offset = sign + amount;
-        String closingX, openingY;
+        int amount = Integer.parseInt(rawOffset.substring(2,3));
+        int closingOffset, openingOffset;
 
-        switch (offset) {
-            case "-9" : closingX = "17:00"; openingY = "03:00";
-                break;
+        if (sign.equals("-")) {
+            closingOffset = (-amount) + 4;
+            openingOffset = (-amount) + 4;
+        }
 
-            case "-8" : closingX = "18:00"; openingY = "04:00";
-                break;
-
-            case "-6" : closingX = "20:00"; openingY = "06:00";
-            break;
-
-            case "-4" : closingX = "22:00"; openingY = "08:00";
-            break;
-
-            case "+1" : closingX = "03:00"; openingY = "13:00";
-            break;
-
-            default:
-                throw new IllegalStateException("Unexpected value: " + offset);
+        else {
+            closingOffset = amount + 4;
+            openingOffset = amount + 4;
         }
 
         DateTimeFormatter FORMAT = DateTimeFormatter.ofPattern("HH:mm");
-        LocalTime closing = LocalTime.parse(closingX, FORMAT);
-        LocalTime opening = LocalTime.parse(openingY, FORMAT);
+        LocalTime estClosing = LocalTime.parse("22:00", FORMAT);
+        LocalTime estOpening = LocalTime.parse("08:00", FORMAT);
+        LocalTime closing = estClosing.plusHours(closingOffset);
+        LocalTime opening = estOpening.plusHours(openingOffset);
 
         //validate appointment time
         for (LocalTime time : times) {

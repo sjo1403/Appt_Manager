@@ -16,10 +16,11 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
+import java.util.Locale;
 
 public class Login {
 
-        private String lang;
+        private String language = "";
 
         @FXML
         private Button loginBttn;
@@ -45,9 +46,9 @@ public class Login {
     public void initialize() {
             String zone = ZoneId.systemDefault().getId();
             zoneTxt.setText(zone);
-            lang = System.getProperty("user.language");
+            String language = Locale.getDefault().getLanguage();
 
-            if (!lang.equals("en")) {
+            if (!language.equals("en")) {
                 userLabel.setText("Nom d'utilisateur");
                 passwordLabel.setText("le mot de passe");
                 loginBttn.setText("connexion");
@@ -62,7 +63,7 @@ public class Login {
      */
         @FXML
         void loginBttn(ActionEvent event) throws IOException, SQLException {
-            if (!lang.equals("en")) {
+            if (!language.equals("en")) {
                 Alert loginAlert = new Alert(Alert.AlertType.ERROR, "Le champ du nom d'utilisateur et/ou du mot de passe est vide. " +
                         "Entrez le nom d'utilisateur et le mot de passe pour continuer.");
                 if (userTxt.getText().isBlank() || passwordTxt.getText().isBlank()) {
@@ -80,7 +81,7 @@ public class Login {
                 }
             }
 
-            boolean authenticated = JDBC.authenticate(userTxt.getText(), passwordTxt.getText(), lang);
+            boolean authenticated = JDBC.authenticate(userTxt.getText(), passwordTxt.getText(), language);
             if (authenticated) {
                 Parent root = FXMLLoader.load(getClass().getResource("../view/MainScreen.fxml"));
                 Stage stage = new Stage();
@@ -95,7 +96,7 @@ public class Login {
                 for (Appointment appointment : Schedule.getAllAppointments()) {
                     long minutes = ChronoUnit.MINUTES.between(now, appointment.getStartDate());
                     if (appointment.getStartDate().isBefore(quarterAfter) && appointment.getStartDate().isAfter(now)) {
-                        if (!lang.equals("en")) {
+                        if (!language.equals("en")) {
                             Alert alert = new Alert(Alert.AlertType.NONE, "Rendez-vous intitulé '" + appointment.getTitle()
                                     + "' commencera dans " + minutes + " minutes.");
 
